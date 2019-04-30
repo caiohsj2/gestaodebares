@@ -194,11 +194,11 @@ include "selecionacat.php";
 
 	?>
 
-<li><form method="post" action="cadastra.php?cod=<?php echo $cod ?>&nome=<?php echo $nome ?>&preco=<?php echo $preco ?>&qtd=1&mesa=<?php echo $numero ?>&idGarcon=<?php echo $idGarcon; ?>&destino=<?php echo $destino ?>">
+<li>
+	<form method="post" action="cadastra.php?cod=<?php echo $cod ?>&nome=<?php echo $nome ?>&preco=<?php echo $preco ?>&qtd=1&mesa=<?php echo $numero ?>&idGarcon=<?php echo $idGarcon; ?>&destino=<?php echo $destino ?>">
 		<button class="" type="submit"><?php echo $nome; ?></button>
 		<input type="text" name="observacao" placeholder="Obs: (Opcional)">
 	</form>
-
 </li> 
 
     <?php 
@@ -351,7 +351,7 @@ function Cozinha(pagina,nome,w,h,scroll){
 
     </td>
 
-    <td align="center" ><?php echo $qtd; ?> <a href="inicio.php?btn=vendermesa&adiciona=produto&id=<?php echo $id ?>&qtd=<?php echo $qtd ?>&id_mesa=<?php echo $numero ?>&idGarcon=<?php echo $garconId?>"><img src="imagens/qtd.png" width="17" height="18" border="0" /></td>
+    <td align="center" ><?php echo $qtd; ?> <a href="inicio.php?btn=vendermesa&adiciona=produto&id=<?php echo $id ?>&qtd=<?php echo $qtd ?>&id_mesa=<?php echo $numero ?>&idGarcon=<?php echo $garconId?>"><img src="imagens/qtd.png" width="17" height="18" border="0" /></a></td>
 
     <td align="center" ><?php echo  str_replace(".",",",$unitario); ?></td>
 

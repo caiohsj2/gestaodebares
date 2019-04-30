@@ -115,17 +115,17 @@ if(isset($_GET['retira'])){
 
     <tr>
 
-      <td width="46%" align="left" bgcolor="#3399FF"><strong>Produto</strong></td>
+      <td width="37%" align="left" bgcolor="#3399FF"><strong>Produto</strong></td>
 
-      <td width="14%" align="center" bgcolor="#3399FF"><strong>Hora</strong></td>
+      <td width="11%" align="center" bgcolor="#3399FF"><strong>Hora</strong></td>
 
-      <td width="17%" align="center" bgcolor="#3399FF"><strong>Mesa</strong></td>
+      <td width="8%" align="center" bgcolor="#3399FF"><strong>Mesa</strong></td>
 
-      <td width="8%" align="left" bgcolor="#3399FF"><strong>Garçom</strong></td>
+      <td width="12%" align="left" bgcolor="#3399FF"><strong>Garçom</strong></td>
 
       <td width="7%" align="center" bgcolor="#3399FF"><strong>Ação</strong></td>
       
-      <td width="8%" align="center" bgcolor="#3399FF"><strong>OBS</strong></td>
+      <td width="25%" align="center" bgcolor="#3399FF"><strong>OBS</strong></td>
 
     </tr>
 
@@ -167,7 +167,7 @@ if(isset($_GET['retira'])){
 
 <?php } ?>
 
-      <td align="center" bgcolor="<?php echo $background ?>"><?php echo $ver['observacao']; ?></td>
+      <td align="center" bgcolor="<?php echo $background ?>" style="color: red;text-transform: uppercase;"><?php echo $ver['observacao']; ?></td>
       </td>
 
 	  <?php } ?>

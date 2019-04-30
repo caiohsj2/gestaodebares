@@ -9,6 +9,7 @@ if(!isset($_SESSION['garcon_session']) and !isset($_SESSION['senha_session'])){
 $login = $_SESSION['garcon_session'];
 $g = mysqli_query($db,"SELECT * FROM garcon WHERE login='$login'");
 $mostra = $g->fetch_assoc();
+$idGarcon = $mostra['idGarcon'];
 
 if(isset($_GET['retira'])){
 	if($_GET['retira'] == "produto"){
@@ -80,7 +81,7 @@ if(isset($_GET['retira'])){
 			$nome  			= $res['nome'];
 			$preco       	= $res['pr'];
 			$unitario		= $res['preco'];	
-			$qtd		 	= $res['qt'];
+			$qtd		 	= $res['qtd'];
 			$comanda		= $res['comanda'];
 			$data			= $res['data'];
 			$id_mesa		= $res['id_mesa'];
@@ -92,7 +93,7 @@ if(isset($_GET['retira'])){
     <td align="left" class="btn">
       <a href="cozinha.php?id_mesa=<?php echo $id_mesa ?>&nome=<?php echo $nome; ?>"  title="Imprimir" onclick="Cozinha(this.href,'nomeJanela','350','600','yes');return false" class="fontcomanda"><?php echo $nome; ?></a></td>
     
-    <td align="center" ><?php echo $qtd; ?> </td>
+    <td align="center" class="btn"><?php echo $qtd; ?> <a href="cadastra.php?adiciona=produto&id=<?php echo $id; ?>&qtd=<?php echo $qtd; ?>&id_mesa=<?php echo $id_mesa; ?>&idGarcon=<?php echo $idGarcon; ?>"><img src="../imagens/qtd.png" width="17" height="18" border="0" /></a></td>
     <td align="center" ><?php echo $unitario ?></td>
     <td width="12%" align="right"><?php echo number_format($totalProduto, 2); ?></td>
     </tr>
