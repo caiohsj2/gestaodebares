@@ -18,9 +18,9 @@ if(!isset($_SESSION['garcon_session']) and !isset($_SESSION['senha_session'])){
 
 $login = $_SESSION['garcon_session'];
 
-$g = mysql_query("SELECT * FROM garcon WHERE login='$login'");
+$g = mysqli_query($db,"SELECT * FROM garcon WHERE login='$login'");
 
-$mostra = mysql_fetch_array($g);
+$mostra = $g->fetch_assoc();
 
 
 
@@ -98,9 +98,9 @@ if (confirm ("Deseja abrir esta mesa?")){
 
 	//echo "<meta HTTP-EQUIV='refresh' CONTENT='5;'>";
 
-		$sql = mysql_query("SELECT * FROM mesa ORDER BY id_mesa ASC");
+		$sql = mysqli_query($db,"SELECT * FROM mesa ORDER BY id_mesa ASC");
 
-		while($ver = mysql_fetch_array($sql)){
+		foreach($sql->fetch_all(MYSQLI_ASSOC) as $ver){
 
 			$situacao = $ver['situacao'];
 
@@ -110,9 +110,9 @@ if (confirm ("Deseja abrir esta mesa?")){
 
 			$idGarcon = $ver['idGarcon'];
 
-			$gar = mysql_query("SELECT * FROM garcon WHERE idGarcon='$idGarcon'");
+			$gar = mysqli_query($db,"SELECT * FROM garcon WHERE idGarcon='$idGarcon'");
 
-			$bosta = mysql_fetch_assoc($gar);
+			$bosta = $gar->fetch_assoc();
 
 			$nomeGarcon = $bosta['nomeGarcon'];
 

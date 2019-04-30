@@ -16,9 +16,9 @@ if(!isset($_SESSION['garcon_session']) and !isset($_SESSION['senha_session'])){
 
 $login = $_SESSION['garcon_session'];
 
-$g = mysql_query("SELECT * FROM garcon WHERE login='$login'");
+$g = mysqli_query($db,"SELECT * FROM garcon WHERE login='$login'");
 
-$mostra = mysql_fetch_array($g);
+$mostra = $g->fetch_assoc();
 
 
 
@@ -28,22 +28,24 @@ $idmesa = $_GET['id_mesa'];
 
 $numero = $_GET['id_mesa'];
 
-if($_GET['retira'] == "produto"){
+if(isset($_GET['retira'])){
+	if($_GET['retira'] == "produto"){
 
-	$numer = $_GET['numero'];
+		$numer = $_GET['numero'];
 
-	$mesaId = $_GET['id_mesa'];
+		$mesaId = $_GET['id_mesa'];
 
-	$idDelete = $_GET['id'];
+		$idDelete = $_GET['id'];
 
-	$del = mysql_query("DELETE FROM tbl_carrinho WHERE id='$idDelete'");
+		$del = mysql_query("DELETE FROM tbl_carrinho WHERE id='$idDelete'");
 
-	if($del == 1){
+		if($del == 1){
 
-	print "<META HTTP-EQUIV=REFRESH CONTENT='0; URL=inicio.php?btn=vendermesa&id_mesa=$mesaId'>";	
+		print "<META HTTP-EQUIV=REFRESH CONTENT='0; URL=inicio.php?btn=vendermesa&id_mesa=$mesaId'>";	
+
+		}
 
 	}
-
 }
 
 
@@ -52,9 +54,9 @@ if($_GET['retira'] == "produto"){
 
 	
 
-  $sql1 = mysql_query("SELECT * FROM mesa WHERE numero='$numero'") or die(mysql_error());
+  $sql1 = mysqli_query($db,"SELECT * FROM mesa WHERE numero='$numero'") or die(mysql_error());
 
-  $cont1 = mysql_fetch_array($sql1);
+  $cont1 = $sql1->fetch_assoc();
 
   $sit = $cont1['situacao'];
 
@@ -184,9 +186,10 @@ $h2 = mysql_fetch_array($gar2); */
 
 	$idCategoria = $_GET['id_categoria'];
 
-	$seleciona = mysql_query("SELECT * FROM tbl_produtos WHERE id_categoria = '$idCategoria' ORDER BY nome ASC") or die(mysql_error());
+	$seleciona = mysqli_query($db,"SELECT * FROM tbl_produtos WHERE id_categoria = '$idCategoria' ORDER BY nome ASC") or die(mysql_error());
+	$seleciona2 = $seleciona->fetch_all(MYSQLI_ASSOC);
 
-	$contar = mysql_num_rows($seleciona);
+	$contar = count($seleciona2);
 
 	
 
@@ -196,7 +199,7 @@ $h2 = mysql_fetch_array($gar2); */
 
 	}else{		
 
-		while($res_comentarios = mysql_fetch_array($seleciona)){		
+		foreach($seleciona2 as $res_comentarios){		
 
 		
 
@@ -206,7 +209,7 @@ $h2 = mysql_fetch_array($gar2); */
 
 			$preco		= $res_comentarios['preco'];
 
-			$data         = $res_comentarios['data'];
+			//$data         = $res_comentarios['data'];
 
 			$destino      = $res_comentarios['destino'];
 			

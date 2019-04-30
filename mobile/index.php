@@ -8,6 +8,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="viewport" content="width=device-width">
+<meta charset="utf-8">
 <title>Sistemas OFF</title>
 <link href="boilerplate.css" rel="stylesheet" type="text/css">
 <!-- mobile -->
@@ -26,10 +27,12 @@
   <div id="login">
   <div id="erro">
 	<?php 
-		$erro = $_GET['login_errado'];
-		if($erro == "erro"){
-		echo "Login ou Senha n«ªo conferem!";
-		}
+    if(isset($_GET['login_errado'])){
+  		$erro = $_GET['login_errado'];
+  		if($erro == "erro"){
+  		echo "Login ou Senha não conferem!";
+  		}
+    }
 		?>
 </div>
     <form action="login.php" method="post" enctype="multipart/form-data">

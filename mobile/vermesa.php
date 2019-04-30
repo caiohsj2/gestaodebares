@@ -7,14 +7,16 @@ if(!isset($_SESSION['garcon_session']) and !isset($_SESSION['senha_session'])){
 	exit;		
 }
 $login = $_SESSION['garcon_session'];
-$g = mysql_query("SELECT * FROM garcon WHERE login='$login'");
-$mostra = mysql_fetch_array($g);
+$g = mysqli_query($db,"SELECT * FROM garcon WHERE login='$login'");
+$mostra = $g->fetch_assoc();
 
-if($_GET['retira'] == "produto"){
-	$numer = $_GET['numero'];
-	$mesaId = $_GET['id_mesa'];
-	$idDelete = $_GET['id'];
-	$del = mysql_query("DELETE FROM tbl_carrinho WHERE id='$idDelete'");
+if(isset($_GET['retira'])){
+	if($_GET['retira'] == "produto"){
+		$numer = $_GET['numero'];
+		$mesaId = $_GET['id_mesa'];
+		$idDelete = $_GET['id'];
+		$del = mysql_query("DELETE FROM tbl_carrinho WHERE id='$idDelete'");
+	}
 }
 
 
@@ -61,13 +63,17 @@ if($_GET['retira'] == "produto"){
 	<?php
 	$mesaId = $_GET['id_mesa'];	
 	$mesa = $_GET['id_mesa'];
-	$carrinho = mysql_query("SELECT *, SUM(qtd) AS qt,SUM(preco) AS pr FROM tbl_carrinho WHERE id_mesa = '$mesa' AND situacao ='1' GROUP BY cod") or die(mysql_error());
-	$contar = mysql_num_rows($carrinho);
+	$carrinho = mysqli_query($db,"SELECT *, SUM(qtd) AS qt,SUM(preco) AS pr FROM tbl_carrinho WHERE id_mesa = '$mesa' AND situacao ='1' GROUP BY cod") or die($db->error());
+	$carrinho2 = $carrinho->fetch_all(MYSQLI_ASSOC);
+	$contar = count($carrinho2);
 	
 	if($contar == 0){
 		echo "";
-	}else{		
-		while($res = mysql_fetch_array($carrinho)){		
+	}else{
+		$itens = 0;
+		$total = 0;
+		$totalProduto = 0;
+		foreach($carrinho2 as $res){		
 		
 			$id           	= $res['id'];
 			$cod     	  	= $res['cod'];
@@ -79,7 +85,8 @@ if($_GET['retira'] == "produto"){
 			$data			= $res['data'];
 			$id_mesa		= $res['id_mesa'];
 			$itens			+=$qtd;
-			$total += $preco;
+			$totalProduto   = $unitario*$qtd;
+			$total          += $totalProduto;
 	?>
 	<tr class="fontcomanda">
     <td align="left" class="btn">
@@ -87,7 +94,7 @@ if($_GET['retira'] == "produto"){
     
     <td align="center" ><?php echo $qtd; ?> </td>
     <td align="center" ><?php echo $unitario ?></td>
-    <td width="12%" align="right"><?php echo number_format($preco, 2); ?></td>
+    <td width="12%" align="right"><?php echo number_format($totalProduto, 2); ?></td>
     </tr>
 	
      <?php 
@@ -106,8 +113,8 @@ if($_GET['retira'] == "produto"){
        <td align="right">
          <?php 
 					
-			$g = mysql_query("SELECT * FROM config") or die(mysql_error());
-			$w = mysql_fetch_array($g);
+			$g = mysqli_query($db,"SELECT * FROM config") or die(mysql_error());
+			$w = $g->fetch_assoc();
 			$ativo = $w['ativo'];
 			$percentual = $w['pgarcon'];
 			if($ativo == 1){

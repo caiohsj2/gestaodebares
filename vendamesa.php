@@ -334,9 +334,10 @@ function Cozinha(pagina,nome,w,h,scroll){
 
 			$itens += $qtd;
 
-			$total += $unitario*$qtd;
-
 			$totalProduto = $unitario*$qtd;
+
+			$total += $totalProduto;
+
 
 	?>
 

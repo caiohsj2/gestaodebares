@@ -18,9 +18,9 @@ if(!isset($_SESSION['garcon_session']) and !isset($_SESSION['senha_session'])){
 
 $login = $_SESSION['garcon_session'];
 
-$g = mysql_query("SELECT * FROM garcon WHERE login='$login'");
+$g = mysqli_query($db,"SELECT * FROM garcon WHERE login='$login'");
 
-$mostra = mysql_fetch_array($g);
+$mostra = $g->fetch_assoc();
 
 
 
@@ -31,22 +31,19 @@ $mostra = mysql_fetch_array($g);
 	$id_garcon = $mostra['idGarcon'];
 
 
+if(isset($_GET['abre'])){
+  if($_GET['abre'] == "abrir"){
 
-if($_GET['abre'] == "abrir"){
+    $idMESA = $_GET['id_mesa'];
 
-	
+    $id_garcon = $mostra['idGarcon'];
 
-$idMESA = $_GET['id_mesa'];
+    $altera = mysqli_query($db,"UPDATE mesa SET idGarcon = '$id_garcon', situacao = '1' WHERE id_mesa = '$idMESA' ") or die($db->error());
 
-$id_garcon = $mostra['idGarcon'];
-
-$altera = mysql_query("UPDATE mesa SET idGarcon = '$id_garcon', situacao = '1' WHERE id_mesa = '$idMESA' ") or die(mysql_error());
-
-	
-
+  }
 }
 
-$str = $QUERY_STRING;
+//$str = $QUERY_STRING;
 
 
 
@@ -192,9 +189,9 @@ if (confirm ("Deseja abrir a mesa de número <?php echo $idmesa ?>?")){
 
   <?php 
 
-        $sql = mysql_query("SELECT * FROM categoria ORDER BY nome ASC") or die(mysql_error);
+        $sql = mysqli_query($db,"SELECT * FROM categoria ORDER BY nome ASC") or die(mysql_error);
 
-        while($l = mysql_fetch_array($sql)){
+        foreach($sql->fetch_all(MYSQLI_ASSOC) as $l){
 
     ?>
 
