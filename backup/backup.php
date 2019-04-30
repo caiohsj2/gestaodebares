@@ -1,6 +1,7 @@
 <?php 
 
-backup_bd('br438.hostgator.com.br','synap062_bareres','#bar@restaurante','synap062_barerest');
+//backup_bd('br438.hostgator.com.br','synap062_bareres','#bar@restaurante','synap062_barerest');
+backup_bd('localhost','root','','gestaodebares');
 
 date_default_timezone_set('America/Sao_Paulo'); 
 
@@ -12,9 +13,9 @@ function backup_bd($host,$utilizador,$password,$nome,$tabelas = '*')
 
  
 
-    $link = mysql_connect($host,$utilizador,$password);
+    $link = new mysqli($host,$utilizador,$password,$nome);
 
-    mysql_select_db($nome,$link);
+    //mysql_select_db($nome,$link);
 
  
 
@@ -26,9 +27,14 @@ function backup_bd($host,$utilizador,$password,$nome,$tabelas = '*')
 
         $tabelas = array();
 
-        $resultado = mysql_query('SHOW TABLES');
+        $resultado = mysqli_query($link,'SHOW TABLES');
 
-        while($coluna = mysql_fetch_row($resultado))
+        $a = $resultado->fetch_all();
+
+        //var_dump($a);
+        //exit;
+
+        while($coluna = $resultado->fetch_all())
 
         {
 
