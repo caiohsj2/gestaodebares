@@ -1,6 +1,4 @@
-<?php require_once('Connections/sistema.php'); ?>
-
-<?php
+<?php 
 
 if (!function_exists("GetSQLValueString")) {
 
@@ -14,9 +12,20 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
 
   }
 
+  include("config/conexao.php");
+
+  $a = function_exists("mysqli_real_escape_string");
+  
+
+  if(function_exists("mysqli_real_escape_string")){
+    $theValue = $db->real_escape_string($theValue);
+  } else {
+    $theValue = $db->mysqli_escape_string($theValue);
+  }
 
 
-  $theValue = function_exists("mysql_real_escape_string") ? mysql_real_escape_string($theValue) : mysql_escape_string($theValue);
+
+  //$theValue = function_exists("mysqli_real_escape_string") ? $db->mysqli_real_escape_string($theValue) : $db->mysqli_escape_string($theValue);
 
 
 
@@ -104,14 +113,13 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 
 
 
-  mysql_select_db($database_sistema, $sistema);
 
-  $Result1 = mysql_query($insertSQL, $sistema) or die(mysql_error());
-
+  $Result1 = mysqli_query($db,$insertSQL) or die($db->error);
 
 
 
 
+  $insertGoTo = "";
   if (isset($_SERVER['QUERY_STRING'])) {
 
     $insertGoTo .= (strpos($insertGoTo, '?')) ? "&" : "?";

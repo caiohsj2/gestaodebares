@@ -152,7 +152,7 @@ if(isset($_GET['retira'])){
 
     <img src="imagens/ok.png" width="20" height="20" border="0"/></a></td>
     
-      <td align="center" bgcolor="<?php echo $background ?>"><?php echo $ver['observacao']; ?>
+      <td align="center" bgcolor="<?php echo $background ?>" style="color: red;text-transform: uppercase;"><?php echo $ver['observacao']; ?>
       
           <?php if($feito == 1 and $destino == 1){?>
 
@@ -160,7 +160,6 @@ if(isset($_GET['retira'])){
 
       <?php }elseif($feito == 0 and $destino == 1){?>
 
-      <img src="imagens/obs.png" width="18" height="18" border="0"/>
 
 <?php } ?>
 

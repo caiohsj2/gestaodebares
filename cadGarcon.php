@@ -56,9 +56,9 @@ if (confirm ("Tem certeza que deseja excluir este garçom?")){
 
 		
 
-		$sql = mysql_query("SELECT * FROM garcon WHERE login='$login'");
+		$sql = mysqli_query($db,"SELECT * FROM garcon WHERE login='$login'");
 
-		$conf = mysql_num_rows($sql);
+		$conf = count($sql->fetch_all(MYSQLI_ASSOC));
 
 		if($conf == 1){
 
@@ -80,9 +80,9 @@ if (confirm ("Tem certeza que deseja excluir este garçom?")){
 
 		$nv	= $_POST['nv'];
 
-		$bd = mysql_query("INSERT INTO garcon (nomeGarcon,login,senha,nv)VALUES('$nome','$login','$senha','$nv')")or die(mysql_error());	
+		$bd = mysqli_query($db,"INSERT INTO garcon (nomeGarcon,login,senha,nv)VALUES('$nome','$login','$senha','$nv')")or die($db->error);	
 
-	if($dbd == 1){
+	if($bd){
 
 	print "<META HTTP-EQUIV=REFRESH CONTENT='0; URL=inicio.php?btn=cadGarcon'>";	
 
@@ -134,13 +134,13 @@ if (confirm ("Tem certeza que deseja excluir este garçom?")){
 
   <?php 
 
-  $ver = mysql_query("SELECT * FROM garcon WHERE idGarcon != '1' ORDER BY idGarcon DESC");
+  $ver = mysqli_query($db,"SELECT * FROM garcon WHERE idGarcon != '1' ORDER BY idGarcon DESC");
 
-   $ver2 = mysql_query("SELECT * FROM garcon WHERE idGarcon != '2' ORDER BY idGarcon DESC");
+   $ver2 = mysqli_query($db,"SELECT * FROM garcon WHERE idGarcon != '2' ORDER BY idGarcon DESC");
 
-   while($r2 = mysql_fetch_array($ver2))
+   foreach($ver2->fetch_all(MYSQLI_ASSOC) as $r2)
 
-   while($r = mysql_fetch_array($ver)){
+   foreach($ver->fetch_all(MYSQLI_ASSOC) as $r){
 
   
 
@@ -194,19 +194,19 @@ if (confirm ("Tem certeza que deseja excluir este garçom?")){
 
   <?php 
 
-  if($_GET['del'] == "del"){
+    if(isset($_GET['del']) && $_GET['del'] == "del"){
 
 	  $id = $_GET['idGarcon'];
 
-	  $del = mysql_query("DELETE FROM garcon WHERE idGarcon='$id'")or die(mysql_error());
+	  $del = mysqli_query($db,"DELETE FROM garcon WHERE idGarcon='$id'")or die(mysql_error());
 
-	  if($del == 1){
+	  if($del){
 
-	print "<META HTTP-EQUIV=REFRESH CONTENT='0; URL=inicio.php?btn=cadGarcon'>";	
+		print "<META HTTP-EQUIV=REFRESH CONTENT='0; URL=inicio.php?btn=cadGarcon'>";	
 
-	}
+	   }
 
-  }
+    }
 
   
 

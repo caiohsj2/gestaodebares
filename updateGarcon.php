@@ -200,9 +200,9 @@ if(isset($_POST['alterar'])){
 
 	
 
-	$conf = mysql_query("SELECT * FROM garcon WHERE login ='$login'");
+	$conf = mysqli_query($db,"SELECT * FROM garcon WHERE login ='$login'");
 
-	$conta = mysql_num_rows($conf);
+	$conta = count($conf->fetch_all(MYSQLI_ASSOC));
 
 	
 
@@ -222,11 +222,11 @@ if(isset($_POST['alterar'])){
 
 	
 
-	$sql = mysql_query("UPDATE garcon SET nomeGarcon='$nome', login = '$login', senha='$senha', nv='$nv' WHERE idGarcon='$cods'")or die(mysql_error());
+	$sql = mysqli_query($db,"UPDATE garcon SET nomeGarcon='$nome', login = '$login', senha='$senha', nv='$nv' WHERE idGarcon='$cods'")or die($db->error);
 
 	
 
-	if($sql == 1){
+	if($sql){
 
 	print"<script type=\"text/javascript\">javascript:window.close()</script>";	
 
@@ -258,9 +258,9 @@ if(isset($_POST['alterar'])){
 
 	$cod = $_GET['cod'];
 
-	$sql_select = mysql_query("SELECT * FROM garcon WHERE idGarcon='$cod'");
+	$sql_select = mysqli_query($db,"SELECT * FROM garcon WHERE idGarcon='$cod'");
 
-		$ver = mysql_fetch_array($sql_select);
+		$ver = $sql_select->fetch_assoc();
 
 		$nivel = $ver['nv'];
 
