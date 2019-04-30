@@ -1,0 +1,7 @@
+# Use PHP54 as default
+AddHandler application/x-httpd-php54 .php
+# BEGIN custom php.ini PHP54
+<IfModule mod_suphp.c>
+    suPHP_ConfigPath /home/synap062/public_html/sistemasoff.com.br/gestaobarerestaurante/mobile
+</IfModule>
+# END custom php.ini
