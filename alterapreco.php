@@ -14,11 +14,11 @@ if(isset($_POST['alterar'])){
 
 
 
-	$sql = mysql_query("UPDATE tbl_produtos SET nome = '$nome', preco ='$preco' WHERE cod ='$cod'") or die(mysql_error());	
+	$sql = mysqli_query($db,"UPDATE tbl_produtos SET nome = '$nome', preco ='$preco' WHERE cod ='$cod'") or die(mysql_error());	
 
 	
 
-	if($sql == 1){
+	if($sql){
 
 	print "
 
@@ -122,9 +122,9 @@ if (confirm ("Tem certeza que deseja excluir este produto")){
 
 <div layer="bosta">
 
-      <form action="?btn=alterapreco&pesquizar=pesquizar" method="post" enctype="multipart/form-data">
+      <form action="?btn=alterapreco&pesquisar=pesquisar" method="post" enctype="multipart/form-data">
 
-Pesquisar produto: <input name="pesquizar" type="text" /><input name="" type="submit" value="Pesquisar" />
+Pesquisar produto: <input name="pesquisar" type="text" /><input name="" type="submit" value="Pesquisar" />
 
 </form>
 
@@ -164,11 +164,16 @@ Pesquisar produto: <input name="pesquizar" type="text" /><input name="" type="su
 
   	<?php 
 
-	$pesquizar = $_POST['pesquizar'];
+  	if(isset($_POST['pesquisar'])){
+		$pesquisar = $_POST['pesquisar'];
+  	} else {
+  		$pesquisar = "";
+  	}
 
-	$sql_select = mysql_query("SELECT * FROM tbl_produtos WHERE nome like'$pesquizar%' ORDER BY nome ASC");
+	$sql_select = mysqli_query($db,"SELECT * FROM tbl_produtos WHERE nome like'$pesquisar%' ORDER BY nome ASC");
 
-	while($ver = mysql_fetch_array($sql_select)){
+	$i = 0;
+	foreach($sql_select->fetch_all(MYSQLI_ASSOC) as $ver){
 
 		$background = (++$i%2) ? '#e7e7e7' : '#F2F2F2';
 
