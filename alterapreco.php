@@ -14,11 +14,11 @@ if(isset($_POST['alterar'])){
 
 
 
-<<<<<<< HEAD
+
 	$sql = mysqli_query($db,"UPDATE tbl_produtos SET nome = '$nome', preco ='$preco' WHERE cod ='$cod'") or die(mysql_error());	
-=======
+
 	$sql = mysqli_query($db,"UPDATE tbl_produtos SET nome = '$nome', preco ='$preco' WHERE cod ='$cod'") or die($db->error);	
->>>>>>> 60d53351c040e8812768fef362d3b445caa5fc6b
+
 
 	
 

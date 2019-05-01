@@ -198,19 +198,18 @@ if(isset($_POST['alterar'])){
 
 	
 
-<<<<<<< HEAD
+
 	$sql = mysqli_query($db,"UPDATE tbl_produtos SET nome='$nome', preco = '$preco' WHERE cod='$cods'")or die(mysql_error());
 
 	
 
 	if($sql){
-=======
+
 	$sql = mysqli_query($db,"UPDATE tbl_produtos SET nome='$nome', preco = '$preco' WHERE cod='$cods'")or die($db->error);
 
 	
 
 	if($sql == 1){
->>>>>>> 60d53351c040e8812768fef362d3b445caa5fc6b
 
 	print"<script type=\"text/javascript\">javascript:window.close()</script>";	
 
