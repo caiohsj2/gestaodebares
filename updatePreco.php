@@ -199,21 +199,17 @@ if(isset($_POST['alterar'])){
 	
 
 
-	$sql = mysqli_query($db,"UPDATE tbl_produtos SET nome='$nome', preco = '$preco' WHERE cod='$cods'")or die(mysql_error());
+
+		$sql = mysqli_query($db,"UPDATE tbl_produtos SET nome='$nome', preco = '$preco' WHERE cod='$cods'")or die($db->error);
 
 	
 
-	if($sql){
+		if($sql){
 
-	$sql = mysqli_query($db,"UPDATE tbl_produtos SET nome='$nome', preco = '$preco' WHERE cod='$cods'")or die($db->error);
+			print"<script type=\"text/javascript\">javascript:window.close()</script>";	
 
-	
+		}
 
-	if($sql == 1){
-
-	print"<script type=\"text/javascript\">javascript:window.close()</script>";	
-
-	}
 
 	
 
