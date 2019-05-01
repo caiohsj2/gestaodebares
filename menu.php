@@ -20,7 +20,7 @@
 
             <li><a href="inicio.php?btn=cadGarcon">Cadastro de Usuários</a></li>
 
-            <li><a href="inicio.php?btn=categoria">Categoria de Produtos</a></li>
+            <li><a href="inicio.php?btn=categoria">Categoria de Categorias</a></li>
 
         </ul>
 

@@ -19,7 +19,7 @@ $nomedobanco = "gestaodebares"; //nome do banco de dados
 
 // NAO ATERAR NADA DAQUI PARA BAIXO
 
-$db = new mysqli($host,$usuario,$senhadobanco, $nomedobanco) or die (mysqli_error());
+$db = new mysqli($host,$usuario,$senhadobanco, $nomedobanco) or die (mysqli_connect_error());
 
 
 ?>

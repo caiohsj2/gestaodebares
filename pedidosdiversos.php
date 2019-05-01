@@ -114,23 +114,21 @@ include "config/conexao.php";
 
 echo "<meta HTTP-EQUIV='refresh' CONTENT='5;URL=?btn=garcon'>";
 
-if($_GET['acao'] == "mudar"){
+  if(isset($_GET['acao']) && $_GET['acao'] == "mudar"){
 
-	$id = $_GET['id'];
+  	$id = $_GET['id'];
 
-	$entregue = $_GET['entregue'];
+  	$entregue = $_GET['entregue'];
 
-	$sql = mysql_query("UPDATE	tbl_carrinho SET status = '1', entregue='$entregue' WHERE id='$id'") or die(mysql_error());
+  	$sql = mysqli_query($db,"UPDATE	tbl_carrinho SET status = '1', entregue='$entregue' WHERE id='$id'") or die(mysql_error());
 
-	
+  }
 
-}
-
- if($_GET['retira'] == "produto"){
+ if(isset($_GET['retira']) && $_GET['retira'] == "produto"){
 
 	$idDelete = $_GET['id'];
 
-	$del = mysql_query("DELETE FROM tbl_carrinho WHERE id='$idDelete'");
+	$del = mysqli_query($db,"DELETE FROM tbl_carrinho WHERE id='$idDelete'");
 
 	if($del == 1){
 
@@ -148,7 +146,7 @@ if($_GET['acao'] == "mudar"){
 
   <tr>
 
-    <td width="46%" align="left" bgcolor="#3399FF"><strong>Produto</strong></td>
+    <td width="37%" align="left" bgcolor="#3399FF"><strong>Produto</strong></td>
 
     <td width="11%" align="center" bgcolor="#3399FF"><strong>Hora</strong></td>
 
@@ -156,17 +154,18 @@ if($_GET['acao'] == "mudar"){
 
     <td width="12%" align="left" bgcolor="#3399FF"><strong>Garçom</strong></td>
 
-    <td width="15%" align="center" bgcolor="#3399FF"><strong>Ações</strong></td>
+    <td width="7%" align="center" bgcolor="#3399FF"><strong>Ações</strong></td>
     
-      <td width="8%" align="center" bgcolor="#3399FF"><strong>OBS</strong></td>
+      <td width="25%" align="center" bgcolor="#3399FF"><strong>OBS</strong></td>
 
   </tr>
 
   <?php 
 
-  $sql = mysql_query("SELECT * FROM tbl_carrinho INNER JOIN garcon ON tbl_carrinho.idGarcon = garcon.idGarcon WHERE status='0' ORDER BY id DESC") or die(mysql_error());
+  $sql = mysqli_query($db,"SELECT * FROM tbl_carrinho INNER JOIN garcon ON tbl_carrinho.idGarcon = garcon.idGarcon WHERE status='0' ORDER BY id DESC") or die(mysql_error());
 
-  while($ver = mysql_fetch_array($sql)){
+  $i = 0;
+  foreach($sql->fetch_all(MYSQLI_ASSOC) as $ver){
 
 	$background = (++$i%2) ? '#FFFFF' : '#F2F2F2';
 
@@ -210,7 +209,7 @@ if($_GET['acao'] == "mudar"){
 
     <img src="imagens/ok.png" width="20" height="20" border="0"/></a></td>
     
-      <td align="center" bgcolor="<?php echo $background ?>"><?php echo $ver['obs']; ?></td>
+      <td align="center" bgcolor="<?php echo $background ?>" style="color: red;text-transform: uppercase;"><?php echo $ver['observacao']; ?></td>
 
   </tr>
 

@@ -37,7 +37,7 @@ if(isset($_GET['retira'])){
 
 		$idDelete = $_GET['id'];
 
-		$del = mysql_query("DELETE FROM tbl_carrinho WHERE id='$idDelete'");
+		$del = mysqli_query($db,"DELETE FROM tbl_carrinho WHERE id='$idDelete'");
 
 		if($del == 1){
 
@@ -221,51 +221,25 @@ $h2 = mysql_fetch_array($gar2); */
 
 
 
- <li>
+	<li>
+	 	<a href="#observacao" class="">
 
+				<?php echo $nome; ?></a><br>
+		     
+		<div id="preco">
+			R$<?php echo $preco; ?>
 
+			<a data-icon="star"></a>
+	    </div>
 
-
-
- <a href="cadastra.php?cod=<?php echo $cod ?>&nome=<?php echo $nome ?>&preco=<?php echo $preco ?>&qtd=1&mesa=<?php echo $numero ?>&idGarcon=<?php echo $mostra['idGarcon']; ?>&destino=<?php echo $destino ?>" class="btn">
- 
-
-
- 
-
-
-
-			<?php echo $nome; ?></a><br>
-	     
-	     
-	     
-  
-<div id="preco">
-           
-			
-
-R$<?php echo $preco; ?>
-	
-
-
-			<a 
-
-    data-icon="star"> 
-
-</a>
- 
-  
-       </div>
-
-       </li>
+	</li>
        
-<a  data-role="button" data-mini="true">Observação do produto
-
-<textarea class="form-control" id="observacao" wrap="physical" cols=50 rows=5 name="observacao" placeholder="Detalhes"></textarea>
-
-
-</a>
-
+    <form method="post" action="cadastra.php?cod=<?php echo $cod ?>&nome=<?php echo $nome ?>&preco=<?php echo $preco ?>&qtd=1&mesa=<?php echo $numero ?>&idGarcon=<?php echo $mostra['idGarcon']; ?>&destino=<?php echo $destino ?>">
+		<a  data-role="button" data-mini="true">Observação do produto
+			<textarea class="form-control" id="observacao" wrap="physical" cols=50 rows=5 name="observacao" placeholder="Detalhes"></textarea>
+			<button type="submit">Adicionar</button>
+		</a>
+	</form>
                   <?php } }?>
 
 

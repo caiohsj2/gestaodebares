@@ -4,6 +4,27 @@ include "../config/conexao.php";
 
 header('Content-type: text/html; charset=UTF-8');
 
+
+if(isset($_GET['adiciona'])){
+	if($_GET['adiciona'] == "produto"){
+		$qtd = $_GET['qtd']+1;
+
+		$mesaId = $_GET['id_mesa'];
+
+		$idAdd = $_GET['id'];
+
+		$idGarcon = $_GET['idGarcon'];
+
+		$up = mysqli_query($db,"UPDATE tbl_carrinho SET qtd = '$qtd' WHERE id='$idAdd'");
+
+		if($up == 1){
+
+		print "<META HTTP-EQUIV=REFRESH CONTENT='0; URL=vermesa.php?id_mesa=$mesaId'>";	
+
+		}
+	}
+}else {
+
 $mesa = $_GET['mesa'];
 
 
@@ -34,7 +55,7 @@ $destino = $_GET['destino'];
 
 $time = date("H:i");
 
-
+$observacao = $_POST['observacao'];
 
 $cadastra = mysqli_query($db,"INSERT INTO tbl_carrinho (
 
@@ -42,15 +63,13 @@ $cadastra = mysqli_query($db,"INSERT INTO tbl_carrinho (
 
 						) VALUES (
 
-						'$cod', '$nome', '$preco', '$qtd', '$comanda', '$data','$mesa','1','$idGarcon','0','$destino','$time','0'
+						'$cod', '$nome', '$preco', '$qtd', '$comanda', '$data','$mesa','1','$idGarcon','0','$destino','0','$time','0','$observacao'
 
 						)");
 
-var_dump($db->error);
-
 	
 
-	if($cadastra == 1){
+	if($cadastra){
 
 		print"<script type=\"text/javascript\">alert(\" 1 - $nome -  foi adicionado a mesa $mesa !\");</script>";
 
@@ -58,7 +77,7 @@ var_dump($db->error);
 
 	}
 
-	
+}	
 
 
 
