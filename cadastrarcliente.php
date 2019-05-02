@@ -13,14 +13,12 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
   }
 
   include("config/conexao.php");
-
-  $a = function_exists("mysqli_real_escape_string");
   
 
-  if(function_exists("mysqli_real_escape_string")){
+  if(function_exists("real_escape_string")){
     $theValue = $db->real_escape_string($theValue);
   } else {
-    $theValue = $db->mysqli_escape_string($theValue);
+    $theValue = $db->escape_string($theValue);
   }
 
 

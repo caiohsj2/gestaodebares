@@ -299,6 +299,7 @@ function Cozinha(pagina,nome,w,h,scroll){
 	$itens = 0;
 	$total = 0;
 	$totals = 0;
+	$totalProduto = 0;
 
 	if($contar == 0){
 
@@ -320,11 +321,11 @@ function Cozinha(pagina,nome,w,h,scroll){
 
 			$qtd		 	= $res['qtd'];
 
-			$unitario		= $res['preco'];
+			$unitario		= floatval($res['preco']);
 
 			$comanda		= $res['comanda'];
 
-			$data			= $res['data'];
+			//$data			= $res['data'];
 
 			$id_mesa		= $res['id_mesa'];
 
@@ -507,6 +508,28 @@ document.formulario.troco.value = formatReal(a);
 
 }
 
+function operacao2(){
+
+
+str2 = document.formulario.somatotal.value;
+
+nvsomatotal = str2.replace(",", "");
+
+t = nvsomatotal.replace(".","");
+
+str = document.formulario.desconto.value;
+
+nvdesconto = str.replace(",", "");
+
+d = nvdesconto.replace(".","");
+
+
+a = t - d;
+
+document.formulario.somatotal.value = formatReal(a);
+
+}
+
 
 
 ///////////////////// FIM DO PROBLEMA //////////////////////////////////////////////////
@@ -541,19 +564,11 @@ function NovaJanela(pagina,nome,w,h,scroll){
 
 </script>
 
-    <?php $totals = number_format($total, 2, ',', '.'); ?>
+    <?php 
+    $totals = number_format($total, 2, ',', '.'); 
+    $mesas = $_GET['id_mesa'];
 
-<form name="formulario" action="" method="post" enctype="multipart/form-data">
-
-            <span class="valores">Total venda </span>
-
-        <input name="total" type="text" value="<?php echo $totals ?>" size="8" maxlength="6" class="calc" readonly="true"/><br/>
-
-        	<?php 
-
-					
-
-			$g = mysqli_query($db,"SELECT * FROM config") or die(mysqli_error());
+    $g = mysqli_query($db,"SELECT * FROM config") or die(mysqli_error());
 
 			$w = $g->fetch_assoc();
 
@@ -571,17 +586,23 @@ function NovaJanela(pagina,nome,w,h,scroll){
 
 			}
 
+		
+
+			$pgarcon = $total * $porcento_garcon / 100;
+
 				
 
-				$pgarcon = $total * $porcento_garcon / 100;
+			$somatotal = $total + $pgarcon;
+    ?>
 
-				
+<form method="post" name="formulario" action="imprimemesa.php?id_mesa=<?php echo $mesas;?>&pgarcon=<?php echo $pgarcon?>&somatotal=<?php echo $somatotal ?>" enctype="multipart/form-data" target="_blank">
+		<span class="valores">Desconto</span>
 
-				$somatotal = $total + $pgarcon;
+        <input name="desconto" type="text" class="calc" id="desconto" value="" placeholder="Opcional" onkeyup="javascript:operacao2('')" /><br/>
 
-			
+        <span class="valores">Total venda </span>
 
-			?>
+        <input name="total" type="text" value="<?php echo $totals ?>" size="8" maxlength="6" class="calc" readonly="true"/><br/>
 
                 <span class="valores">Percentural do Garçom </span>
 
@@ -601,23 +622,11 @@ function NovaJanela(pagina,nome,w,h,scroll){
 
             <input name="troco" type="text" class="calc" size="8" maxlength="8" readonly="true"/><br/>
 
-            
+            <button class="button" type="submit">Fechar Conta</button> 
 
       </form> 
 
       <br/>
-
-      <?php 
-
-	  $mesas = $_GET['id_mesa'];
-
-	  ?>
-
-      <a href="imprimemesa.php?id_mesa=<?php echo $mesas;?>&pgarcon=<?php echo $pgarcon?>&somatotal=<?php echo $somatotal ?>" 
-
-  onclick="NovaJanela(this.href,'nomeJanela','750','600','yes');return false" class="button">
-
-  Fechar Conta</a> 
 
       </div>
 

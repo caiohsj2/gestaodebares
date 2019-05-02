@@ -86,7 +86,7 @@ if(isset($_GET['retira'])){
 			$data			= $res['data'];
 			$id_mesa		= $res['id_mesa'];
 			$itens			+=$qtd;
-			$totalProduto   = $unitario*$qtd;
+			$totalProduto   = (double)$unitario*$qtd;
 			$total          += $totalProduto;
 	?>
 	<tr class="fontcomanda">

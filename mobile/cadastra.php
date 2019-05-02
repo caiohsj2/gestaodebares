@@ -1,5 +1,5 @@
 <?php
-
+ob_start();
 include "../config/conexao.php";
 
 header('Content-type: text/html; charset=UTF-8');
@@ -23,10 +23,9 @@ if(isset($_GET['adiciona'])){
 
 		}
 	}
-}else {
+} else {
 
 $mesa = $_GET['mesa'];
-
 
 
 $conf = mysqli_query($db,"SELECT * FROM mesa WHERE numero = '$mesa'") or die(mysql_error());
@@ -55,7 +54,8 @@ $destino = $_GET['destino'];
 
 $time = date("H:i");
 
-$observacao = $_POST['observacao'];
+$observacao = isset($_POST['observacao']) ? $_POST['observacao'] : "";
+
 
 $cadastra = mysqli_query($db,"INSERT INTO tbl_carrinho (
 
@@ -66,17 +66,20 @@ $cadastra = mysqli_query($db,"INSERT INTO tbl_carrinho (
 						'$cod', '$nome', '$preco', '$qtd', '$comanda', '$data','$mesa','1','$idGarcon','0','$destino','0','$time','0','$observacao'
 
 						)");
-
 	
 
 	if($cadastra){
 
-		print"<script type=\"text/javascript\">alert(\" 1 - $nome -  foi adicionado a mesa $mesa !\");</script>";
+		print "<script>alert('item adicionado');</script>";
 
-		echo'<script>javascript:window.history.go(-1)</script>';	
+
+		header("location: inicio.php?id_mesa=$mesa&idGarcon=$idGarcon");
+
+		ob_end_flush();
+		exit;
 
 	}
-
+		
 }	
 
 

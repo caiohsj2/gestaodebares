@@ -29,11 +29,11 @@ $num = @$_GET['number'];
 
 if(@$_GET['btn'] =="cancela"){
 
-		$del = mysql_query("DELETE FROM tbl_carrinho WHERE comanda = '$num' ") or die(mysql_error());
+		$del = mysqli_query($db,"DELETE FROM tbl_carrinho WHERE comanda = '$num' ") or die(mysql_error());
 
 		
 
-		if($del == 1){
+		if($del){
 
 	print "<META HTTP-EQUIV=REFRESH CONTENT='0; URL=inicio.php?btn=nova'>";
 

@@ -104,11 +104,11 @@ $usu = $s->fetch_assoc();
 
 		
 
-	$up = mysql_query("UPDATE config SET empresa='$empresa', telefone='$telefone'");
+	$up = mysqli_query($db,"UPDATE config SET empresa='$empresa', telefone='$telefone'");
 
 	
 
-		if($up == 1){
+	if($up){
 
 	print "
 
@@ -136,11 +136,11 @@ $usu = $s->fetch_assoc();
 
 		
 
-	$up = mysql_query("UPDATE config SET pgarcon='$pgarcon', ativo='$ativo'");
+	$up = mysqli_query($db,"UPDATE config SET pgarcon='$pgarcon', ativo='$ativo'");
 
 	
 
-		if($up == 1){
+		if($up){
 
 	print "
 
@@ -170,11 +170,11 @@ $usu = $s->fetch_assoc();
 
 		
 
-	$up = mysql_query("UPDATE garcon SET nomeGarcon='$nome', login='$login2', senha='$senha2' WHERE idGarcon='1'") or die(mysql_error());
+	$up = mysqli_query($db,"UPDATE garcon SET nomeGarcon='$nome', login='$login2', senha='$senha2' WHERE idGarcon='1'") or die(mysql_error());
 
 	
 
-		if($up == 1){
+	if($up){
 
 	print "
 
