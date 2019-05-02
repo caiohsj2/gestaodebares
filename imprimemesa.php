@@ -183,7 +183,7 @@ hr{ color:#f2f2f2;}
 
     <?php 
     $desconto = 0;
-    if(isset($_POST['desconto'])){
+    if(isset($_POST['desconto']) && $_POST['desconto'] != ""){
     	$desconto = str_replace(",", ".", $_POST['desconto']);
 
     ?>

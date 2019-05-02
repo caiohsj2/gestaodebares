@@ -120,7 +120,7 @@ echo "<meta HTTP-EQUIV='refresh' CONTENT='5;URL=?btn=garcon'>";
 
   	$entregue = $_GET['entregue'];
 
-  	$sql = mysqli_query($db,"UPDATE	tbl_carrinho SET status = '1', entregue='$entregue' WHERE id='$id'") or die(mysql_error());
+  	$sql = mysqli_query($db,"UPDATE	tbl_carrinho SET status = '1', entregue='$entregue' WHERE id='$id'") or die($db->error);
 
   }
 

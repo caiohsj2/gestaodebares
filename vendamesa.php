@@ -510,12 +510,17 @@ document.formulario.troco.value = formatReal(a);
 
 function operacao2(){
 
+str3 = document.formulario.inputSomaTotal.value;
 
-str2 = document.formulario.somatotal.value;
+nvsomatotal = str3.replace(",", "");
 
-nvsomatotal = str2.replace(",", "");
+st = nvsomatotal.replace(".","");
 
-t = nvsomatotal.replace(".","");
+str2 = document.formulario.inputTotal.value;
+
+nvtotal = str2.replace(",", "");
+
+t = nvtotal.replace(".","");
 
 str = document.formulario.desconto.value;
 
@@ -523,10 +528,16 @@ nvdesconto = str.replace(",", "");
 
 d = nvdesconto.replace(".","");
 
-
 a = t - d;
+b = st - d;
 
-document.formulario.somatotal.value = formatReal(a);
+document.formulario.total.value = formatReal(a);
+
+document.formulario.somatotal.value = formatReal(b);
+
+if(document.formulario.dinheiro.value != "" || document.formulario.dinheiro.value > 0){
+	operacao();
+}
 
 }
 
@@ -565,7 +576,8 @@ function NovaJanela(pagina,nome,w,h,scroll){
 </script>
 
     <?php 
-    $totals = number_format($total, 2, ',', '.'); 
+    $totals = number_format($total, 2, ',', '.');
+   
     $mesas = $_GET['id_mesa'];
 
     $g = mysqli_query($db,"SELECT * FROM config") or die(mysqli_error());
@@ -580,19 +592,21 @@ function NovaJanela(pagina,nome,w,h,scroll){
 
 			$porcento_garcon = $percentual;
 
-			}else{
-
-			$porcento_garcon = 0;
-
-			}
-
-		
-
 			$pgarcon = $total * $porcento_garcon / 100;
 
 				
 
 			$somatotal = $total + $pgarcon;
+
+			}else{
+
+			$porcento_garcon = 0;
+			$somatotal = $total;
+			}
+
+		
+
+			
     ?>
 
 <form method="post" name="formulario" action="imprimemesa.php?id_mesa=<?php echo $mesas;?>&pgarcon=<?php echo $pgarcon?>&somatotal=<?php echo $somatotal ?>" enctype="multipart/form-data" target="_blank">
@@ -603,6 +617,7 @@ function NovaJanela(pagina,nome,w,h,scroll){
         <span class="valores">Total venda </span>
 
         <input name="total" type="text" value="<?php echo $totals ?>" size="8" maxlength="6" class="calc" readonly="true"/><br/>
+        <input type="hidden" id="inputTotal" name="" value="<?php echo $totals;?>" />
 
                 <span class="valores">Percentural do Garçom </span>
 
@@ -611,7 +626,7 @@ function NovaJanela(pagina,nome,w,h,scroll){
                 <span class="valores">Total </span>
 
                 <input name="somatotal" type="text" class="calc" id="somatotal" value="<?php echo number_format($somatotal, 2, ',', '.'); ?>"/><br/>
-
+                <input type="hidden" id="inputSomaTotal" name="" value="<?php echo number_format($somatotal, 2, ',', '.');?>" />
                 
 
         <span class="valores">Dinheiro </span>

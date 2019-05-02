@@ -18,7 +18,7 @@ if(isset($_POST['cadastrar'])){
 
 	$preco = str_replace(",", ".",$precov);
 
-	$img	= $_POST[''];
+	//$img	= $_POST[''];
 
 	$categoria = $_POST['categoria'];
 
@@ -107,7 +107,7 @@ $(document).ready(function() {
 
 		$cat = mysqli_query($db,"SELECT * FROM categoria ORDER BY nome ASC");
 
-		while($c = $cat->fetch_assoc()){
+		foreach($cat->fetch_assoc() as $c){
 
 	?>
 

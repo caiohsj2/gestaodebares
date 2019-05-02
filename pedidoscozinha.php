@@ -81,8 +81,6 @@ if(isset($_GET['acao'])){
   	print "<META HTTP-EQUIV=REFRESH CONTENT='0; URL=pedidoscozinha.php'>";
 
   	//echo $feito;
-
-
   }
 }
 
@@ -131,7 +129,7 @@ if(isset($_GET['retira'])){
 
     <?php 
 
-  $sql = mysqli_query($db,"SELECT * FROM tbl_carrinho INNER JOIN garcon ON tbl_carrinho.idGarcon = garcon.idGarcon WHERE destino='0' AND status = '0' ORDER BY id DESC") or die(mysql_error());
+  $sql = mysqli_query($db,"SELECT * FROM tbl_carrinho INNER JOIN garcon ON tbl_carrinho.idGarcon = garcon.idGarcon WHERE destino='1' AND status = '0' ORDER BY id DESC") or die($db->error);
   $sql2 = $sql->fetch_all(MYSQLI_ASSOC);
 
   $i = 0;
