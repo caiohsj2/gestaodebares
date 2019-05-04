@@ -39,7 +39,7 @@ if(isset($_GET['retira'])){
 
 		$del = mysqli_query($db,"DELETE FROM tbl_carrinho WHERE id='$idDelete'");
 
-		if($del == 1){
+		if($del){
 
 		print "<META HTTP-EQUIV=REFRESH CONTENT='0; URL=inicio.php?btn=vendermesa&id_mesa=$mesaId'>";	
 
@@ -186,20 +186,16 @@ $h2 = mysql_fetch_array($gar2); */
 
 	$idCategoria = $_GET['id_categoria'];
 
-	$seleciona = mysqli_query($db,"SELECT * FROM tbl_produtos WHERE id_categoria = '$idCategoria' ORDER BY nome ASC") or die(mysql_error());
-	$seleciona2 = $seleciona->fetch_all(MYSQLI_ASSOC);
-
-	$contar = count($seleciona2);
-
+	$seleciona = mysqli_query($db,"SELECT * FROM tbl_produtos WHERE id_categoria = '$idCategoria' ORDER BY nome ASC") or die($db->error);
 	
 
-	if($contar == 0){
+	if($seleciona == false){
 
 		echo "";
 
-	}else{		
+	} else {		
 
-		foreach($seleciona2 as $res_comentarios){		
+		while($res_comentarios = $seleciona->fetch_assoc()){		
 
 		
 

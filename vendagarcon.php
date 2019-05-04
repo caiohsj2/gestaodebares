@@ -71,7 +71,7 @@ if(isset($_GET['retira'])){
 
 	$del = mysqli_query($db,"DELETE FROM tbl_carrinho WHERE id='$idDelete'");
 
-	if($del == 1){
+	if($del){
 
 	print "<META HTTP-EQUIV=REFRESH CONTENT='0; URL=inicio.php?btn=garcon'>";	
 
@@ -104,11 +104,10 @@ if(isset($_GET['retira'])){
 
   <?php 
 
-  $sql = mysqli_query($db,"SELECT * FROM tbl_carrinho INNER JOIN garcon ON tbl_carrinho.idGarcon = garcon.idGarcon WHERE status='0' ORDER BY id DESC") or die(mysqli_error());
-  $sql2 = $sql->fetch_all(MYSQLI_ASSOC);
+  $sql = mysqli_query($db,"SELECT * FROM tbl_carrinho INNER JOIN garcon ON tbl_carrinho.idGarcon = garcon.idGarcon WHERE status='0' ORDER BY id DESC") or die($db->error);
 
   $i = 0;
-  foreach($sql as $ver){
+  while($ver = $sql->fetch_assoc()){
 
 	$background = (++$i%2) ? '#FFFFF' : '#F2F2F2';
 

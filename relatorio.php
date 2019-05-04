@@ -160,11 +160,10 @@ return false;
   			$hora2 = $_POST['hora2'];
 
   	    $query = mysqli_query($db,"SELECT data, nome, preco, SUM(preco) AS pr, SUM(qtd) AS qtd, date_format(data, '%d/%m/%Y') AS data FROM tbl_carrinho WHERE data BETWEEN '$datai' AND '$dataf' AND time BETWEEN '$hora1' AND '$hora2' GROUP BY nome") or die(mysql_error());
-        $query2 = $query->fetch_all(MYSQLI_ASSOC);
 
 
       $total = 0; 
-  		foreach($query2 as $resultado){
+  		while($resultado = $query->fetch_assoc()){
 
   			$data = $resultado['data'];
 

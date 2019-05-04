@@ -11,11 +11,8 @@ function backup_bd($host,$utilizador,$password,$nome,$tabelas = '*')
 
 {
 
- 
 
     $link = new mysqli($host,$utilizador,$password,$nome);
-
-    //mysql_select_db($nome,$link);
 
  
 
@@ -29,12 +26,7 @@ function backup_bd($host,$utilizador,$password,$nome,$tabelas = '*')
 
         $resultado = mysqli_query($link,'SHOW TABLES');
 
-        $a = $resultado->fetch_all();
-
-        //var_dump($a);
-        //exit;
-
-        while($coluna = $resultado->fetch_all())
+        while($coluna = $resultado->fetch_row())
 
         {
 
@@ -53,20 +45,22 @@ function backup_bd($host,$utilizador,$password,$nome,$tabelas = '*')
     }
 
  
-
+    $return = "";
     foreach($tabelas as $tabelas)
 
     {
 
-        $resultado = mysql_query('SELECT * FROM '.$tabelas);
+        $resultado = mysqli_query($link,'SELECT * FROM '.$tabelas);
 
-        $num_campos = mysql_num_fields($resultado);
+        $num_campos = $resultado->field_count;
 
  
 
         $return.= 'DROP TABLE '.$tabelas.';';
 
-        $coluna2 = mysql_fetch_row(mysql_query('SHOW CREATE TABLE '.$tabelas));
+        $resultado2 = mysqli_query($link,'SHOW CREATE TABLE '.$tabelas);
+
+        $coluna2 = $resultado2->fetch_row();
 
         $return.= "\n\n".$coluna2[1].";\n\n";
 
@@ -76,7 +70,7 @@ function backup_bd($host,$utilizador,$password,$nome,$tabelas = '*')
 
         {
 
-            while($coluna = mysql_fetch_row($resultado))
+            while($coluna = $resultado->fetch_row())
 
             {
 
@@ -88,7 +82,7 @@ function backup_bd($host,$utilizador,$password,$nome,$tabelas = '*')
 
                     $coluna[$j] = addslashes($coluna[$j]);
 
-                    $coluna[$j] = ereg_replace("\n","\\n",$coluna[$j]);
+                    $coluna[$j] = preg_replace("/\n/","/\\n/",$coluna[$j]);
 
                     if (isset($coluna[$j])) { $return.= '"'.$coluna[$j].'"' ; } else { $return.= '""'; }
 

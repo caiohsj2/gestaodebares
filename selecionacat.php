@@ -29,9 +29,8 @@ Selecione a categoría:
   $idGarcon =$_GET['idGarcon'];
 
   	$salto = mysqli_query($db,"SELECT * FROM categoria ORDER BY nome ASC");
-    $salto2 = $salto->fetch_all(MYSQLI_ASSOC);
 
-	foreach($salto2 as $aaa){
+	while($aaa = $salto->fetch_assoc()){
 
   ?>
 

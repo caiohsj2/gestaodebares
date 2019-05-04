@@ -16,7 +16,7 @@ $senha = $_POST['senha'];
 
 $sql = mysqli_query($db,"SELECT * FROM garcon WHERE login='$login' AND senha='$senha'") or die(error); 
 
-$conf = $sql->fetch_all(MYSQLI_ASSOC);
+$conf = $sql->fetch_assoc();
 	
 	// var_dump($conf);
 	// echo count($conf);
@@ -26,7 +26,7 @@ $nv = $conf['nv'];
 
 
 
-if(count($conf) == 1 and $nv == 0){
+if($sql and $nv == 0){
 
 	$_SESSION['login_session'] = $login;
 
@@ -36,7 +36,7 @@ if(count($conf) == 1 and $nv == 0){
 
 	}
 
-elseif(count($conf) == 1 and $nv == 2){
+elseif($sql and $nv == 2){
 
 	$_SESSION['cozinha_session'] = $login;
 
@@ -46,7 +46,7 @@ elseif(count($conf) == 1 and $nv == 2){
 
 	}
 	
-elseif(count($conf) == 1 and $nv == 3){
+elseif($sql and $nv == 3){
 
 	$_SESSION['diversos_session'] = $login;
 

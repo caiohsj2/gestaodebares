@@ -13,9 +13,8 @@ $senha = $_POST['senha'];
 
 
 $sql = mysqli_query($db,"SELECT * FROM garcon WHERE login='$login' AND senha='$senha' AND nv !='2'") or die(mysql_error());
-$sql2 = $sql->fetch_all(MYSQLI_ASSOC);
 
-if(count($sql2) == 1){
+if($sql){
 
 	$_SESSION['garcon_session'] = $login;
 
@@ -23,7 +22,7 @@ if(count($sql2) == 1){
 
 	header("Location:mesas.php");
 
-}else{
+} else {
 
 	unset($_SESSION['garcon_session']);
 

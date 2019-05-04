@@ -36,7 +36,7 @@
 <ul>
 	<?php 
 		$sql = mysqli_query($db,"SELECT * FROM pedido ORDER BY id_mesa DESC LIMIT 20");
-		foreach($sql->fetch_all(MYSQLI_ASSOC) as $ver){
+		while($ver = $sql->fetch_assoc()){
 			$situacao = $ver['situacao'];
 			$id_mesa = $ver['id_mesa'];
 			$numero = $ver['nome'];

@@ -10,9 +10,9 @@
 
 		
 
-			$delete = mysqli_query("UPDATE mesa SET situacao ='0', idGarcon = '' WHERE id_mesa = '$id_mesa' ")or die(mysql_error());
+			$delete = mysqli_query("UPDATE mesa SET situacao ='0', idGarcon = '' WHERE id_mesa = '$id_mesa' ")or die($db->error);
 
-			$up = mysqli_query("UPDATE tbl_carrinho SET situacao = '0' WHERE id_mesa = '$id_mesa'")or die(mysql_error());
+			$up = mysqli_query("UPDATE tbl_carrinho SET situacao = '0' WHERE id_mesa = '$id_mesa'")or die($db->error);
 
 		}
 	}
@@ -32,9 +32,7 @@
 
 		$sql = mysqli_query($db,"SELECT * FROM mesa ORDER BY id_mesa ASC");
 
-		$sql->fetch_all(MYSQLI_ASSOC);
-
-		foreach($sql as $ver){
+		while($ver = $sql->fetch_assoc()){
 
 			$situacao = $ver['situacao'];
 

@@ -189,9 +189,9 @@ if (confirm ("Deseja abrir a mesa de número <?php echo $idmesa ?>?")){
 
   <?php 
 
-        $sql = mysqli_query($db,"SELECT * FROM categoria ORDER BY nome ASC") or die(mysql_error);
+        $sql = mysqli_query($db,"SELECT * FROM categoria ORDER BY nome ASC") or die($db->error);
 
-        foreach($sql->fetch_all(MYSQLI_ASSOC) as $l){
+        while($l = $sql->fetch_assoc()){
 
     ?>
 

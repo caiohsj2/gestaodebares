@@ -21,7 +21,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
 
 		$del = mysqli_query($db,"DELETE FROM entrega WHERE id='$idDelete'");
 
-		if($del == 1){
+		if($del){
 
 		print "<META HTTP-EQUIV=REFRESH CONTENT='0; URL=inicio2.php?btn=vendapedido&id_mesa=$mesaId&idGarcon=$idGarcon'>";	
 
@@ -41,9 +41,9 @@ if(isset($_GET['adiciona'])){
 
 		$idGarcon = $_GET['idGarcon'];
 
-		$del = mysqli_query($db,"UPDATE entrega SET qtd = '$qtd' WHERE id='$idAdd'");
+		$up = mysqli_query($db,"UPDATE entrega SET qtd = '$qtd' WHERE id='$idAdd'");
 
-		if($del == 1){
+		if($up){
 
 		print "<META HTTP-EQUIV=REFRESH CONTENT='0; URL=inicio2.php?btn=vendapedido&id_mesa=$mesaId&idGarcon=$idGarcon'>";	
 
@@ -89,12 +89,13 @@ $row_Recordset1 = $Recordset1->fetch_assoc();
 date_default_timezone_set('America/Sao_Paulo');
 $numero = $_GET['id_mesa'];
 if(isset($_GET['retira']) && $_GET['retira'] == "produto"){
-	$numer = $_GET['numero'];
+	//$numer = $_GET['numero'];
 	$mesaId = $_GET['id_mesa'];
+	$idGarcon = $_GET['idGarcon'];
 	$idDelete = $_GET['id'];
 	$del = mysqli_query($db,"DELETE FROM entrega WHERE id='$idDelete'");
 	if($del){
-	print "<META HTTP-EQUIV=REFRESH CONTENT='0; URL=inicio2.php?btn=vendapedido&id_mesa=$mesaId'>";	
+	print "<META HTTP-EQUIV=REFRESH CONTENT='0; URL=inicio2.php?btn=vendapedido&id_mesa=$mesaId&idGarcon=$idGarcon'>";	
 	}
 }
 
@@ -114,9 +115,9 @@ if(isset($_POST['ok'])){
   $sql1 = mysqli_query($db,"SELECT * FROM pedido WHERE id_mesa ='$numero'") or die($db->error);
   $cont1 = $sql1->fetch_assoc();
   $sit = $cont1['situacao'];
-$idGarconget = $_GET['idGarcon'];
-$gar2 = mysqli_query($db,"SELECT * FROM garcon WHERE idGarcon='$idGarconget'");
-$h2 = $gar2->fetch_assoc();
+  $idGarconget = $_GET['idGarcon'];
+  $gar2 = mysqli_query($db,"SELECT * FROM garcon WHERE idGarcon='$idGarconget'");
+  $h2 = $gar2->fetch_assoc();
   ?>
 <h1>
 
@@ -127,7 +128,7 @@ Atendente:
 <option value="0">=Selecione=</option>
 <?php 
 	$gar = mysqli_query($db,"SELECT * FROM garcon WHERE idGarcon != '1' ORDER BY nomeGarcon ASC") or die(mysql_error());
-	foreach($gar->fetch_all(MYSQLI_ASSOC) as $h){
+	while($h = $gar->fetch_assoc()){
 		
 ?>
   <option value="<?php echo $h['idGarcon'] ?>"<?php if (!(strcmp($h['idGarcon'], $h2['idGarcon']))) {echo "selected=\"selected\"";} ?>><?php echo $h['nomeGarcon'] ?></option>
@@ -155,14 +156,12 @@ include "selecionacat2.php";
 
 	$idCategoria = isset($_GET['id_categoria']) ? $_GET['id_categoria'] : "";
 
-	$seleciona = mysqli_query($db,"SELECT * FROM tbl_produtos WHERE id_categoria = '$idCategoria' ORDER BY nome ASC") or die(mysql_error());
-	$seleciona2 = $seleciona->fetch_all(MYSQLI_ASSOC);
-	$contar = count($seleciona2);
+	$seleciona = mysqli_query($db,"SELECT * FROM tbl_produtos WHERE id_categoria = '$idCategoria' ORDER BY nome ASC") or die($db->error);
 	
-	if($contar == 0){
+	if($seleciona == false){
 		echo "";
 	}else{		
-		foreach($seleciona2 as $res_comentarios){		
+		while($res_comentarios = $seleciona->fetch_assoc()){		
 		
 			$cod          = $res_comentarios['cod'];
 			$nome         = $res_comentarios['nome'];
@@ -172,7 +171,10 @@ include "selecionacat2.php";
 				
 	?>
 <li>
-	<a href="cadastra2.php?cod=<?php echo $cod ?>&nome=<?php echo $nome ?>&preco=<?php echo $preco ?>&qtd=1&mesa=<?php echo $numero ?>&idGarcon=<?php echo $idGarcon; ?>&destino=<?php echo $destino ?>" class="btn"><?php echo $nome; ?></a>
+	<form method="post" action="cadastra2.php?cod=<?php echo $cod ?>&nome=<?php echo $nome ?>&preco=<?php echo $preco ?>&qtd=1&mesa=<?php echo $numero ?>&idGarcon=<?php echo $idGarcon; ?>&destino=<?php echo $destino ?>">
+		<button class="" type="submit"><?php echo $nome; ?></button>
+		<input type="text" name="observacao" placeholder="Obs: (Opcional)">
+	</form>
 </li> 
     <?php 
 		}
@@ -219,15 +221,14 @@ function Cozinha(pagina,nome,w,h,scroll){
 	<?php	
 	
 	$carrinho = mysqli_query($db,"SELECT *, SUM(qtd) AS qt,SUM(preco) AS pr FROM entrega WHERE id_mesa='$numero' AND situacao='1' GROUP BY cod") or die(		$db->error);
-	$carrinho2 = $carrinho->fetch_all(MYSQLI_ASSOC);
-	$contar = count($carrinho2);
 	
 	$itens = 0;
 	$total = 0;
-	if($contar == 0){
+	$totalProduto = 0;
+	if($carrinho == false){
 		echo "";
 	}else{		
-		foreach($carrinho2 as $res){		
+		while($res = $carrinho->fetch_assoc()){		
 		
 			$id           	= $res['id'];
 
@@ -270,7 +271,7 @@ function Cozinha(pagina,nome,w,h,scroll){
 
     </td>
 
-    <td align="center" ><?php echo $qtd; ?> <a href="inicio.php?btn=vendapedido&adiciona=produto&id=<?php echo $id ?>&qtd=<?php echo $qtd ?>&id_mesa=<?php echo $numero ?>&idGarcon=<?php echo $garconId?>"><img src="imagens/qtd.png" width="17" height="18" border="0" /></a></td>
+    <td align="center" ><?php echo $qtd; ?> <a href="inicio2.php?btn=vendapedido&adiciona=produto&id=<?php echo $id ?>&qtd=<?php echo $qtd ?>&id_mesa=<?php echo $numero ?>&idGarcon=<?php echo $idGarconget?>"><img src="imagens/qtd.png" width="17" height="18" border="0" /></a></td>
 
     <td align="center" ><?php echo  str_replace(".",",",$unitario); ?></td>
 
@@ -278,7 +279,7 @@ function Cozinha(pagina,nome,w,h,scroll){
 
     <td width="2%" align="right">
 
-    <a href="inicio.php?btn=vendapedido&retira=produto&id=<?php echo $id ?>&id_mesa=<?php echo $numero ?>&idGarcon=<?php echo $garconId?>"><img src="imagens/icone_delete.gif" width="17" height="18" border="0" /></a>
+    <a href="inicio2.php?btn=vendapedido&retira=produto&id=<?php echo $id ?>&id_mesa=<?php echo $numero ?>&idGarcon=<?php echo $idGarconget?>"><img src="imagens/icone_delete.gif" width="17" height="18" border="0" /></a>
 
     </td>
 
@@ -344,15 +345,58 @@ $(document).ready(function(){
     }
 
 function operacao(){
+
 str = document.formulario.dinheiro.value;
+
 nvdinheiro = str.replace(",", "");
+
 d = nvdinheiro.replace(".","");
 
+
+
 str2 = document.formulario.somatotal.value;
+
 nvsomatotal = str2.replace(",", "");
+
 t = nvsomatotal.replace(".","")
+
 a = d - t;
+
 document.formulario.troco.value = formatReal(a);
+
+}
+
+function operacao2(){
+
+str3 = document.formulario.inputSomaTotal.value;
+
+nvsomatotal = str3.replace(",", "");
+
+st = nvsomatotal.replace(".","");
+
+str2 = document.formulario.inputTotal.value;
+
+nvtotal = str2.replace(",", "");
+
+t = nvtotal.replace(".","");
+
+str = document.formulario.desconto.value;
+
+nvdesconto = str.replace(",", "");
+
+d = nvdesconto.replace(".","");
+
+a = t - d;
+b = st - d;
+
+document.formulario.total.value = formatReal(a);
+
+document.formulario.somatotal.value = formatReal(b);
+
+if(document.formulario.dinheiro.value != "" || document.formulario.dinheiro.value > 0){
+	operacao();
+}
+
 }
 
 ///////////////////// FIM DO PROBLEMA //////////////////////////////////////////////////
@@ -371,45 +415,65 @@ function NovaJanela(pagina,nome,w,h,scroll){
 }
 
 </script>
-    <?php $totals = number_format($total, 2, ',', '.'); ?>
-<form name="formulario" action="" method="post" enctype="multipart/form-data">
-            <span class="valores">Total venda </span>
-        <input name="total" type="text" value="<?php echo $totals ?>" size="8" maxlength="6" class="calc" readonly="true"/><br/>
-        	<?php 
+    <?php 
+    		$totals = number_format($total, 2, ',', '.');
+
+    		$mesas = $_GET['id_mesa'];
 					
 			$g = mysqli_query($db,"SELECT * FROM config") or die($db->error);
 			$w = $g->fetch_assoc();
 			$ativo = $w['ativo'];
 			$percentual = $w['pgarcon'];
 			if($ativo == 1){
+
 			$porcento_garcon = $percentual;
+
+			$pgarcon = $total * $porcento_garcon / 100;
+
+				
+
+			$somatotal = $total + $pgarcon;
+
 			}else{
+
 			$porcento_garcon = 0;
+			$somatotal = $total;
 			}
-				
-				$pgarcon = $total * $porcento_garcon / 100;
-				
-				$somatotal = $total + $pgarcon;
 			
 			?>
-                <span class="valores">Percentural do Garçon </span>
-                <input name="garconP" type="text" class="calc" id="garconP" value="<?php echo number_format($pgarcon, 2, ',', '.'); ?>"/><br/>
-                <span class="valores">Total </span>
-                <input name="somatotal" type="text" class="calc" id="somatotal" value="<?php echo number_format($somatotal, 2, ',', '.'); ?>"/><br/>
-                
-        <span class="valores">Dinheiro </span>
-        <input name="dinheiro" type="text" size="8"  class="calc" onkeyup="javascript:operacao('')" id="dinheiro-1"/><br/>
+            <form method="post" name="formulario" action="imprimepedido.php?id_mesa=<?php echo $mesas;?>&pgarcon=<?php echo $pgarcon?>&somatotal=<?php echo $somatotal ?>" enctype="multipart/form-data" target="_blank">
+			<span class="valores">Desconto</span>
+
+	        <input name="desconto" type="text" class="calc" id="desconto" value="" placeholder="Opcional" onkeyup="javascript:operacao2('')" /><br/>
+
+	        <span class="valores">Total venda </span>
+
+	        <input name="total" type="text" value="<?php echo $totals ?>" size="8" maxlength="6" class="calc" readonly="true"/><br/>
+	        <input type="hidden" id="inputTotal" name="" value="<?php echo $totals;?>" />
+
+	                <span class="valores">Percentural do Garçom </span>
+
+	                <input name="garconP" type="text" class="calc" id="garconP" value="<?php echo number_format($pgarcon, 2, ',', '.'); ?>"/><br/>
+
+	                <span class="valores">Total </span>
+
+	                <input name="somatotal" type="text" class="calc" id="somatotal" value="<?php echo number_format($somatotal, 2, ',', '.'); ?>"/><br/>
+	                <input type="hidden" id="inputSomaTotal" name="" value="<?php echo number_format($somatotal, 2, ',', '.');?>" />
+	                
+
+	        <span class="valores">Dinheiro </span>
+
+	        <input name="dinheiro" type="text" size="8"  class="calc" onkeyup="javascript:operacao('')" id="dinheiro-1"/><br/>
+
             <span class="valores">Troco </span>
+
             <input name="troco" type="text" class="calc" size="8" maxlength="8" readonly="true"/><br/>
-            
+
+            <button class="button" type="submit">Fechar Conta</button> 
+
       </form> 
       <br/>
-      <?php 
-	  $mesas = $_GET['id_mesa'];
-	  ?>
-      <a href="imprimepedido.php?id_mesa=<?php echo $mesas;?>&pgarcon=<?php echo $pgarcon?>&somatotal=<?php echo $somatotal ?>" 
-  onclick="NovaJanela(this.href,'nomeJanela','750','600','yes');return false" class="button">
-  Fechar Conta</a> 
+      
       </div>
   </div><!--// fecha comentários --> 
 </div><!--// fecha box -->

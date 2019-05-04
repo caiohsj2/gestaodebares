@@ -16,7 +16,7 @@ if(isset($_GET['retira'])){
 
 		$del = mysqli_query($db,"DELETE FROM tbl_carrinho WHERE id='$idDelete'");
 
-		if($del == 1){
+		if($del){
 
 		print "<META HTTP-EQUIV=REFRESH CONTENT='0; URL=inicio.php?btn=vendermesa&id_mesa=$mesaId&idGarcon=$idGarcon'>";	
 
@@ -36,9 +36,9 @@ if(isset($_GET['adiciona'])){
 
 		$idGarcon = $_GET['idGarcon'];
 
-		$del = mysqli_query($db,"UPDATE tbl_carrinho SET qtd = '$qtd' WHERE id='$idAdd'");
+		$up = mysqli_query($db,"UPDATE tbl_carrinho SET qtd = '$qtd' WHERE id='$idAdd'");
 
-		if($del == 1){
+		if($up){
 
 		print "<META HTTP-EQUIV=REFRESH CONTENT='0; URL=inicio.php?btn=vendermesa&id_mesa=$mesaId&idGarcon=$idGarcon'>";	
 
@@ -59,7 +59,7 @@ if(isset($_POST['ok'])){
 
 		$altera = mysqli_query($db,"UPDATE mesa SET idGarcon = '$idGarcon', situacao = '1' WHERE id_mesa = '$numero' ") or die(mysqli_error());
 
-		if($altera == 1){
+		if($altera){
 
 	print "<META HTTP-EQUIV=REFRESH CONTENT='0; URL=inicio.php?btn=vendermesa&id_mesa=$numero&idGarcon=$idGarcon'>";	
 
@@ -104,9 +104,8 @@ Garçom Responsável: <select name="nomeGarcon">
 <?php 
 
 	$gar = mysqli_query($db,"SELECT * FROM garcon WHERE idGarcon != '1' ORDER BY nomeGarcon ASC") or die(mysql_error());
-	$result = $gar->fetch_all(MYSQLI_ASSOC);
 
-	foreach($result as $h){
+	while($h = $gar->fetch_assoc()){
 
 		
 
@@ -164,19 +163,15 @@ include "selecionacat.php";
 		
 
 	$seleciona = mysqli_query($db,"SELECT * FROM tbl_produtos WHERE id_categoria = '$idCategoria' ORDER BY nome ASC") or die(mysql_error());
-	$seleciona2 = $seleciona->fetch_all(MYSQLI_ASSOC);
-
-	$contar = count($seleciona2);
-
 	
 
-	if($contar == 0){
+	if($seleciona == false){
 
 		echo "";
 
-	}else{		
+	} else {		
 
-		foreach($seleciona2 as $res_comentarios){		
+		while($res_comentarios = $seleciona->fetch_assoc()){	
 
 		
 
@@ -289,11 +284,7 @@ function Cozinha(pagina,nome,w,h,scroll){
 
 	
 
-	$carrinho = mysqli_query($db,"SELECT *, SUM(qtd) AS qt,SUM(preco) AS pr FROM tbl_carrinho WHERE id_mesa='$numero' AND situacao='1' GROUP BY cod") or die(		mysqli_error());
-
-	$carrinho2 = $carrinho->fetch_all(MYSQLI_ASSOC);
-
-	$contar = count($carrinho2);
+	$carrinho = mysqli_query($db,"SELECT *, SUM(qtd) AS qt,SUM(preco) AS pr FROM tbl_carrinho WHERE id_mesa='$numero' AND situacao='1' GROUP BY cod") or die($db->error);
 
 	
 	$itens = 0;
@@ -301,13 +292,13 @@ function Cozinha(pagina,nome,w,h,scroll){
 	$totals = 0;
 	$totalProduto = 0;
 
-	if($contar == 0){
+	if($carrinho == false){
 
 		echo "";
 
 	}else{		
 
-		foreach($carrinho2 as $res){		
+		while($res = $carrinho->fetch_assoc()){		
 
 		
 
@@ -331,6 +322,8 @@ function Cozinha(pagina,nome,w,h,scroll){
 
 			$garconId       = $res['idGarcon'];
 
+			$observacao     = $res['observacao'];
+
 			
 
 			$itens += $qtd;
@@ -346,7 +339,7 @@ function Cozinha(pagina,nome,w,h,scroll){
 
     <td width="60%" align="left">
 
-    <a href="cozinha.php?id_mesa=<?php echo $id_mesa ?>&nome=<?php echo $nome; ?>"  title="Imprimir"
+    <a href="cozinha.php?id_mesa=<?php echo $id_mesa ?>&nome=<?php echo $nome; ?>&observacao=<?php echo $observacao;?>"  title="Imprimir"
 
     onclick="Cozinha(this.href,'nomeJanela','350','600','yes');return false" class="fontcomanda"><?php echo $nome; ?></a>
 

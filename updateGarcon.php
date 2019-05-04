@@ -202,11 +202,9 @@ if(isset($_POST['alterar'])){
 
 	$conf = mysqli_query($db,"SELECT * FROM garcon WHERE login ='$login'");
 
-	$conta = count($conf->fetch_all(MYSQLI_ASSOC));
-
 	
 
-	if($conta != 0){
+	if($conf){
 
 		echo '<script type=\"text/javascript\">
 

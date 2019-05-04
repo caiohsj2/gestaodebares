@@ -177,7 +177,7 @@ Pesquisar produto: <input name="pesquisar" type="text" /><input name="" type="su
 	$sql_select = mysqli_query($db,"SELECT * FROM tbl_produtos WHERE nome like'$pesquisar%' ORDER BY nome ASC");
 
 	$i = 0;
-	foreach($sql_select->fetch_all(MYSQLI_ASSOC) as $ver){
+	while($ver = $sql_select->fetch_assoc()){
 
 		$background = (++$i%2) ? '#e7e7e7' : '#F2F2F2';
 

@@ -108,15 +108,16 @@ CREATE TABLE `entrega` (
   `status` int(1) NOT NULL,
   `destino` int(1) NOT NULL,
   `entregue` int(1) NOT NULL,
-  `feito` int(1) NOT NULL
+  `feito` int(1) NOT NULL,
+  `observacao` varchar(40) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Fazendo dump de dados para tabela `entrega`
 --
 
-INSERT INTO `entrega` (`id`, `cod`, `nome`, `preco`, `qtd`, `comanda`, `data`, `time`, `id_mesa`, `situacao`, `idGarcon`, `status`, `destino`, `entregue`, `feito`) VALUES
-(485, 125, 'Marisco', '6.00', 1, 0, '2019-04-18', '12:21:00', 51, 0, '', 0, 1, 0, 0);
+INSERT INTO `entrega` (`id`, `cod`, `nome`, `preco`, `qtd`, `comanda`, `data`, `time`, `id_mesa`, `situacao`, `idGarcon`, `status`, `destino`, `entregue`, `feito`, `observacao`) VALUES
+(485, 125, 'Marisco', '6.00', 1, 0, '2019-04-18', '12:21:00', 51, 0, '', 0, 1, 0, 0, 'Teste');
 
 -- --------------------------------------------------------
 
@@ -152,7 +153,7 @@ INSERT INTO `garcon` (`idGarcon`, `nomeGarcon`, `login`, `senha`, `nv`) VALUES
 CREATE TABLE `mesa` (
   `id_mesa` int(10) NOT NULL,
   `numero` int(10) NOT NULL,
-  `idGarcon` varchar(200) CHARACTER SET utf8 NOT NULL,
+  `idGarcon` varchar(200) CHARACTER SET utf8 DEFAULT NULL,
   `situacao` int(1) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 

@@ -58,9 +58,7 @@ if (confirm ("Tem certeza que deseja excluir este garçom?")){
 
 		$sql = mysqli_query($db,"SELECT * FROM garcon WHERE login='$login'");
 
-		$conf = count($sql->fetch_all(MYSQLI_ASSOC));
-
-		if($conf == 1){
+		if($sql->num_rows > 0){
 
 			print"<META HTTP-EQUIV=REFRESH CONTENT='0; URL=inicio.php?btn=cadGarcon'>
 
@@ -72,7 +70,7 @@ if (confirm ("Tem certeza que deseja excluir este garçom?")){
 
 			
 
-		}else{
+		} else {
 
 		
 
@@ -80,13 +78,13 @@ if (confirm ("Tem certeza que deseja excluir este garçom?")){
 
 		$nv	= $_POST['nv'];
 
-		$bd = mysqli_query($db,"INSERT INTO garcon (nomeGarcon,login,senha,nv)VALUES('$nome','$login','$senha','$nv')")or die($db->error);	
+		$sql2 = mysqli_query($db,"INSERT INTO garcon (nomeGarcon,login,senha,nv)VALUES('$nome','$login','$senha','$nv')")or die($db->error);	
 
-	if($bd){
+		if($sql2){
 
-	print "<META HTTP-EQUIV=REFRESH CONTENT='0; URL=inicio.php?btn=cadGarcon'>";	
+			print "<META HTTP-EQUIV=REFRESH CONTENT='0; URL=inicio.php?btn=cadGarcon'>";	
 
-	}
+		}
 
 	
 
@@ -138,9 +136,9 @@ if (confirm ("Tem certeza que deseja excluir este garçom?")){
 
    $ver2 = mysqli_query($db,"SELECT * FROM garcon WHERE idGarcon != '2' ORDER BY idGarcon DESC");
 
-   foreach($ver2->fetch_all(MYSQLI_ASSOC) as $r2)
+   while($r2 = $ver2->fetch_assoc())
 
-   foreach($ver->fetch_all(MYSQLI_ASSOC) as $r){
+   while($r = $ver->fetch_assoc()){
 
   
 
@@ -162,7 +160,7 @@ if (confirm ("Tem certeza que deseja excluir este garçom?")){
 
 	else{
 
-	echo $r['nomeGarcon'];}
+		echo $r['nomeGarcon'];}
 
 	
 
@@ -198,7 +196,7 @@ if (confirm ("Tem certeza que deseja excluir este garçom?")){
 
 	  $id = $_GET['idGarcon'];
 
-	  $del = mysqli_query($db,"DELETE FROM garcon WHERE idGarcon='$id'")or die(mysql_error());
+	  $del = mysqli_query($db,"DELETE FROM garcon WHERE idGarcon='$id'")or die($db->error);
 
 	  if($del){
 

@@ -100,7 +100,7 @@ if (confirm ("Deseja abrir esta mesa?")){
 
 		$sql = mysqli_query($db,"SELECT * FROM mesa ORDER BY id_mesa ASC");
 
-		foreach($sql->fetch_all(MYSQLI_ASSOC) as $ver){
+		while($ver = $sql->fetch_assoc()){
 
 			$situacao = $ver['situacao'];
 

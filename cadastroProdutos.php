@@ -18,7 +18,7 @@ if(isset($_POST['cadastrar'])){
 
 	$preco = str_replace(",", ".",$precov);
 
-	//$img	= $_POST[''];
+	$img	= "";
 
 	$categoria = $_POST['categoria'];
 
@@ -43,11 +43,11 @@ if(isset($_POST['cadastrar'])){
 
 	
 
-	$sql = mysqli_query($db,"INSERT INTO tbl_produtos(nome, preco, img, id_categoria,destino)VALUES('$nome','$preco','$img','$categoria','$destino')") or die(mysqli_error());	
+	$sql = mysqli_query($db,"INSERT INTO tbl_produtos(nome, preco, img, id_categoria,destino)VALUES('$nome','$preco','$img','$categoria','$destino')") or die($db->error);	
 
 	
 
-	if($sql == 1){
+	if($sql){
 
 	print "
 
@@ -107,7 +107,7 @@ $(document).ready(function() {
 
 		$cat = mysqli_query($db,"SELECT * FROM categoria ORDER BY nome ASC");
 
-		foreach($cat->fetch_assoc() as $c){
+		while($c = $cat->fetch_assoc()){
 
 	?>
 

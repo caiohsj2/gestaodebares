@@ -93,7 +93,7 @@ if(isset($_GET['retira'])){
 
   	$del = mysqli_query($db,"DELETE FROM tbl_carrinho WHERE id='$idDelete'");
 
-  	if($del == 1){
+  	if($del){
 
   	 print "<META HTTP-EQUIV=REFRESH CONTENT='0; URL=inicio.php?btn=garcon'>";	
 
@@ -130,10 +130,9 @@ if(isset($_GET['retira'])){
     <?php 
 
   $sql = mysqli_query($db,"SELECT * FROM tbl_carrinho INNER JOIN garcon ON tbl_carrinho.idGarcon = garcon.idGarcon WHERE destino='1' AND status = '0' ORDER BY id DESC") or die($db->error);
-  $sql2 = $sql->fetch_all(MYSQLI_ASSOC);
-
+//223344
   $i = 0;
-  foreach($sql2 as $ver){
+  while($ver = $sql->fetch_assoc()){
 
 	$background = (++$i%2) ? '#FFFFF' : '#F2F2F2';
 
@@ -169,6 +168,50 @@ if(isset($_GET['retira'])){
       </td>
 
 	  <?php } ?>
+
+    </tr>
+
+    <?php
+
+    $sql2 = mysqli_query($db,"SELECT * FROM entrega INNER JOIN garcon ON entrega.idGarcon = garcon.idGarcon WHERE destino='1' AND status = '0' ORDER BY id DESC") or die($db->error);
+
+    $i = 0;
+  while($ver2 = $sql2->fetch_assoc()){
+
+  $background = (++$i%2) ? '#FFFFF' : '#F2F2F2';
+
+  $feito = $ver2['feito'];
+
+  ?>
+
+    <tr>
+
+      <td bgcolor="<?php echo $background ?>"><?php echo $ver2['nome']; ?></td>
+
+      <td align="center" bgcolor="<?php echo $background ?>"><?php echo $ver2['time']; ?></td>
+
+      <td align="center" bgcolor="<?php echo $background ?>"><?php echo $ver2['id_mesa'] ?></td>
+
+      <td bgcolor="<?php echo $background ?>"><?php echo $ver2['nomeGarcon'] ?></td>
+
+      <td bgcolor="<?php echo $background ?>">
+
+      <?php if($feito == 1){?>
+
+      <a href="javascript:confirmariten('?acao=mudar&feito=0&id=<?php echo $ver2['id']; ?>')">
+
+      <img src="imagens/pronto.png" width="45" height="18" border="0" /></a>
+
+      <?php }else{?>
+
+      <a href="javascript:confirmar('?acao=mudar&feito=1&id=<?php echo $ver2['id']; ?>')"><img src="imagens/AFAZER.png" width="45" height="18" border="0" /></a>
+
+<?php } ?>
+
+      <td align="center" bgcolor="<?php echo $background ?>" style="color: red;text-transform: uppercase;"><?php echo $ver2['observacao']; ?></td>
+      </td>
+
+    <?php } ?>
 
     </tr>
 

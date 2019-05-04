@@ -120,20 +120,17 @@ hr{ color:#f2f2f2;}
 	<?php	
 
 	$carrinho = mysqli_query($db,"SELECT *, SUM(qtd) AS qt, SUM(preco) AS pr FROM tbl_carrinho WHERE id_mesa = '$id_mesa' AND situacao='1' GROUP BY cod") or die($db->error);
-	$carrinho2 = $carrinho->fetch_all(MYSQLI_ASSOC);
-
-	$contar = count($carrinho2);
 
 	
 	$itens = 0;
 	$total = 0;
-	if($contar == 0){
+	if($carrinho == false){
 
 		echo "Adicione itens";
 
-	}else{		
+	} else {		
 
-		foreach($carrinho2 as $res){		
+		while($res = $carrinho->fetch_assoc()){		
 
 		
 

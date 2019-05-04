@@ -48,10 +48,9 @@ if (confirm ("Tem certeza que deseja excluir esta mesa?")){
 
   $contar = mysqli_query($db,"SELECT * FROM mesa ORDER BY id_mesa DESC") or die($db->error);
 
-  $linha = $contar->fetch_all(MYSQLI_ASSOC);
-
-  $cont = count($linha);
-  
+  $cont = 0;
+  while($a = $contar->fetch_assoc())
+    $cont++;
 
   $conf = $cont + 1;
 
@@ -90,7 +89,7 @@ if (confirm ("Tem certeza que deseja excluir esta mesa?")){
   	$sel = mysqli_query($db,"SELECT * FROM mesa ORDER BY id_mesa ASC");
 
   $i = 0;
-	foreach($sel->fetch_all(MYSQLI_ASSOC) as $ver){
+	while($ver = $sel->fetch_assoc()){
 
   	$background = (++$i%2) ? '#F9F9F9' : '#F2F2F2';
 
@@ -118,11 +117,11 @@ if(isset($_GET['apagar']) && $_GET['apagar'] == "apagar"){
 
 	$id = $_GET['id_mesa'];
 
-	$del = mysql_query("DELETE FROM mesa WHERE id_mesa = '$id'");
+	$del = mysqli_query($db,"DELETE FROM mesa WHERE id_mesa = '$id'");
 
 		
 
-	if($del == 1){
+	if($del){
 
 	 print "<META HTTP-EQUIV=REFRESH CONTENT='0; URL=inicio.php?btn=cadastromesa'>";
 

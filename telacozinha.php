@@ -30,11 +30,11 @@
 
 include "config/conexao.php";
 
-if($_GET['acao'] == "mudar"){
+if(isset($_GET['acao']) && $_GET['acao'] == "mudar"){
 
 	$id = $_GET['id'];
 
-	$sql = mysql_query("UPDATE	tbl_carrinho SET status = '1' WHERE id='$id'") or die(mysql_error());
+	$sql = mysqli_query($db,"UPDATE	tbl_carrinho SET status = '1' WHERE id='$id'") or die(mysql_error());
 
 	
 

@@ -45,17 +45,17 @@ if (confirm ("Tem certeza que deseja excluir esta categoria?")){
 
 	  
 
-	  $nomes = $_POST['nome'];
+	$nomes = $_POST['nome'];
 
 		
 
-		$sql = mysqli_query($db,"INSERT INTO categoria (nome)VALUES('$nomes')")or die(mysql_error());  
+  $sql = mysqli_query($db,"INSERT INTO categoria (nome)VALUES('$nomes')")or die($db->error);  
 
 		
 
-		if($sql == 1){
+	if($sql){
 
-	print "<META HTTP-EQUIV=REFRESH CONTENT='0; URL=inicio.php?btn=categoria'>";	
+	 print "<META HTTP-EQUIV=REFRESH CONTENT='0; URL=inicio.php?btn=categoria'>";	
 
 	}
 
@@ -108,11 +108,11 @@ if (confirm ("Tem certeza que deseja excluir esta categoria?")){
 
   		$id = $_GET['id_categoria'];
 
-  		$del = mysql_query("DELETE FROM categoria WHERE id_categoria = '$id'");
+  		$del = mysqli_query($db,"DELETE FROM categoria WHERE id_categoria = '$id'");
 
   		
 
-  		if($del == 1){
+  		if($del){
 
   	     print "<META HTTP-EQUIV=REFRESH CONTENT='0; URL=inicio.php?btn=categoria'>";
 

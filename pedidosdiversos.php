@@ -130,7 +130,7 @@ echo "<meta HTTP-EQUIV='refresh' CONTENT='5;URL=?btn=garcon'>";
 
 	$del = mysqli_query($db,"DELETE FROM tbl_carrinho WHERE id='$idDelete'");
 
-	if($del == 1){
+	if($del){
 
 	print "<META HTTP-EQUIV=REFRESH CONTENT='0; URL=inicio.php?btn=garcon'>";	
 
@@ -162,10 +162,10 @@ echo "<meta HTTP-EQUIV='refresh' CONTENT='5;URL=?btn=garcon'>";
 
   <?php 
 
-  $sql = mysqli_query($db,"SELECT * FROM tbl_carrinho INNER JOIN garcon ON tbl_carrinho.idGarcon = garcon.idGarcon WHERE status='0' ORDER BY id DESC") or die(mysql_error());
+  $sql = mysqli_query($db,"SELECT * FROM tbl_carrinho INNER JOIN garcon ON tbl_carrinho.idGarcon = garcon.idGarcon WHERE status='0' ORDER BY id DESC") or die($db->error);
 
   $i = 0;
-  foreach($sql->fetch_all(MYSQLI_ASSOC) as $ver){
+  while($ver = $sql->fetch_assoc()){
 
 	$background = (++$i%2) ? '#FFFFF' : '#F2F2F2';
 
@@ -210,6 +210,61 @@ echo "<meta HTTP-EQUIV='refresh' CONTENT='5;URL=?btn=garcon'>";
     <img src="imagens/ok.png" width="20" height="20" border="0"/></a></td>
     
       <td align="center" bgcolor="<?php echo $background ?>" style="color: red;text-transform: uppercase;"><?php echo $ver['observacao']; ?></td>
+
+  </tr>
+
+  <?php } ?>
+
+  <?php 
+
+  $sql2 = mysqli_query($db,"SELECT * FROM entrega INNER JOIN garcon ON entrega.idGarcon = garcon.idGarcon WHERE status='0' ORDER BY id DESC") or die($db->error);
+
+  $i = 0;
+  while($ver2 = $sql2->fetch_assoc()){
+
+  $background = (++$i%2) ? '#FFFFF' : '#F2F2F2';
+
+  $feito = $ver2['feito'];
+
+  $destino = $ver2['destino'];
+
+  ?>
+
+  <tr>
+
+    <td bgcolor="<?php echo $background ?>"><?php echo $ver2['nome']; ?></td>
+
+    <td align="center" bgcolor="<?php echo $background ?>"><?php echo $ver2['time']; ?></td>
+
+    <td align="center" bgcolor="<?php echo $background ?>"><?php echo $ver2['id_mesa'] ?></td>
+
+    <td bgcolor="<?php echo $background ?>"><?php echo $ver2['nomeGarcon'] ?></td>
+
+    <td align="right" bgcolor="<?php echo $background ?>">
+
+    <?php if($feito == 1 and $destino == 1){?>
+
+      <img src="imagens/pronto.png" width="45" height="18" border="0" />
+
+      <?php }elseif($feito == 0 and $destino == 1){?>
+
+      <img src="imagens/AFAZER.png" width="45" height="18" border="0"/>
+
+<?php } ?>
+
+    
+
+    
+
+<!--<a href="javascript:confirmariten('?btn=garcon&retira=produto&id=<?php echo $ver2['id'] ?>entregue=1')"><img src="imagens/excluir.png" width="20" height="20" border="0" /></a> -->
+
+    
+
+    <a href="javascript:confirmardel('?btn=garcon&acao=mudar&id=<?php echo $ver2['id']; ?>&entregue=1')">
+
+    <img src="imagens/ok.png" width="20" height="20" border="0"/></a></td>
+    
+      <td align="center" bgcolor="<?php echo $background ?>" style="color: red;text-transform: uppercase;"><?php echo $ver2['observacao']; ?></td>
 
   </tr>
 

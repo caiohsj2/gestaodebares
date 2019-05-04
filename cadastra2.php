@@ -14,7 +14,7 @@ $conferegarcon = $conf->fetch_assoc();
 
 
 
-$idGarcon = $conferegarcon['idGarcon'];
+$idGarcon = $_GET['idGarcon'];
 
 
 
@@ -36,17 +36,21 @@ $destino = $_GET['destino'];
 
 $time = date("H:i");
 
+$observacao = $_POST['observacao'];
+
 
 
 $cadastra = mysqli_query($db,"INSERT INTO entrega (
 
-						cod, nome, preco, qtd,comanda,data,id_mesa,situacao,idGarcon,status,destino,entregue,time,feito
+						cod, nome, preco, qtd,comanda,data,id_mesa,situacao,idGarcon,status,destino,entregue,time,feito,observacao
 
 						) VALUES (
 
-						'$cod', '$nome', '$preco', '$qtd', '$comanda', '$data','$mesa','1','$idGarcon','0','$destino','0','$time','0'
+						'$cod', '$nome', '$preco', '$qtd', '$comanda', '$data','$mesa','1','$idGarcon','0','$destino','0','$time','0','$observacao'
 
 						)")or die ($db->error);
+
+print "<META HTTP-EQUIV=REFRESH CONTENT='0; URL=inicio2.php?btn=vendapedido&id_mesa=$mesa&idGarcon=$idGarcon'>";
 
 
 

@@ -17,7 +17,7 @@ if(isset($_GET['adiciona'])){
 
 		$up = mysqli_query($db,"UPDATE tbl_carrinho SET qtd = '$qtd' WHERE id='$idAdd'");
 
-		if($up == 1){
+		if($up){
 
 		print "<META HTTP-EQUIV=REFRESH CONTENT='0; URL=vermesa.php?id_mesa=$mesaId'>";	
 

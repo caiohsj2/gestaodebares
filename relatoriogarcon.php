@@ -136,7 +136,7 @@ return false;
 
 	$gar = mysqli_query($db,"SELECT * FROM garcon WHERE idGarcon !='1' ORDER BY nomeGarcon ASC");
 
-	foreach($gar->fetch_all(MYSQLI_ASSOC) as $mostra){?>
+	while($mostra = $gar->fetch_assoc()){?>
 
     <option value="<?php echo $mostra['idGarcon'] ?>"><?php echo $mostra['nomeGarcon'] ?></option>
 
@@ -218,7 +218,7 @@ if($ativo == '0'){
 
 		$total = 0;
 		$ganho = 0;
-		foreach($query->fetch_all(MYSQLI_ASSOC) as $resultado){
+		while($resultado = $query->fetch_assoc()){
 
 			//$ids = $resultado['idGarcon'];
 

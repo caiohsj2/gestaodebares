@@ -48,9 +48,9 @@ if(isset($_GET['numero'])){
 
 	if($_GET['btn'] =="cancela"){
 
-			$del = mysql_query("DELETE FROM entrega WHERE comanda = '$num' ") or die(mysql_error());
+			$del = mysqli_query("DELETE FROM entrega WHERE comanda = '$num' ") or die($db->error);
 
-			if($del == 1){
+			if($del){
 
 		print "<META HTTP-EQUIV=REFRESH CONTENT='0; URL=inicio2.php?btn=nova'>";
 

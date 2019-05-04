@@ -30,7 +30,7 @@ Selecione a categoría:
 
   	$salto = mysqli_query($db,"SELECT * FROM categoria ORDER BY nome ASC");
 
-	foreach($salto->fetch_all(MYSQLI_ASSOC) as $aaa){
+	while($aaa = $salto->fetch_assoc()){
 
   ?>
 

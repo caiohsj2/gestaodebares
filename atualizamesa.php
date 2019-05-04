@@ -9,23 +9,21 @@ date_default_timezone_set('America/Sao_Paulo');
 if(isset($_GET['btn']) || isset($_GET['retira'])){
 	if($_GET['btn'] =="cancela"){
 
-		 	$mesa = $_GET['id_mesa'];
+		$mesa = $_GET['id_mesa'];
 
-			$num = $_GET['numero'];
+		$num = $_GET['numero'];
 
-			$del = mysql_query("DELETE FROM tbl_carrinho WHERE id_mesa = '$mesa' ") or die(mysql_error());
+		$sql = mysql_query("DELETE FROM tbl_carrinho WHERE id_mesa = '$mesa' ") or die(mysql_error());
 
-			if($sql == 1){
+		if($sql){
 
-		print "<META HTTP-EQUIV=REFRESH CONTENT='0; URL=inicio.php?btn=mesa'>";
-
-
+			print "<META HTTP-EQUIV=REFRESH CONTENT='0; URL=inicio.php?btn=mesa'>";
 
 		}
 
-	  }
+	}
 
-	  if($_GET['retira'] == "produto"){
+	if($_GET['retira'] == "produto"){
 
 		$mesaId = $_GET['id_mesa'];
 
@@ -33,9 +31,9 @@ if(isset($_GET['btn']) || isset($_GET['retira'])){
 
 		$del = mysqli_query($db,"DELETE FROM tbl_carrinho WHERE id='$idDelete'");
 
-		if($del == 1){
+		if($del){
 
-		print "<META HTTP-EQUIV=REFRESH CONTENT='0; URL=inicio.php?btn=vendermesa&id_mesa=$mesaId'>";	
+			print "<META HTTP-EQUIV=REFRESH CONTENT='0; URL=inicio.php?btn=vendermesa&id_mesa=$mesaId'>";	
 
 		}
 
@@ -135,15 +133,13 @@ function Cozinha(pagina,nome,w,h,scroll){
 		$mesa = $_GET['mesa'];
 	}
 
-	$carrinho = mysqli_query($db,"SELECT *, SUM(qtd) AS qt,SUM(preco) AS pr FROM tbl_carrinho WHERE id_mesa = '$id_mesa' AND situacao ='1' GROUP BY cod") or die(mysql_error());
+	$carrinho = mysqli_query($db,"SELECT *, SUM(qtd) AS qt,SUM(preco) AS pr FROM tbl_carrinho WHERE id_mesa = '$id_mesa' AND situacao ='1' GROUP BY cod") or die($db->error);
 
-	$carrinho2 = $carrinho->fetch_all(MYSQLI_ASSOC);
-
-	$contar = count($carrinho2);
+	$carrinho2 = $carrinho->fetch_assoc();
 
 	
 
-	if($contar == 0){
+	if($carrinho == false){
 
 		echo "";
 
@@ -151,7 +147,7 @@ function Cozinha(pagina,nome,w,h,scroll){
 		$itens = 0;
 		$total = 0;
 
-		foreach($carrinho2 as $res){		
+		while($res = $carrinho2){		
 
 		
 

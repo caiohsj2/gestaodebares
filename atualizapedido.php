@@ -112,13 +112,15 @@ date_default_timezone_set('America/Sao_Paulo');
 
 	$mesaId = $_GET['id_mesa'];
 
+  $garcon = $_GET['idGarcon'];
+
 	$idDelete = $_GET['id'];
 
 	$del = mysqli_query($db,"DELETE FROM entrega WHERE id='$idDelete'");
 
 	if($del){
 
-	print "<META HTTP-EQUIV=REFRESH CONTENT='0; URL=inicio2.php?btn=vendapedido&id_mesa=$mesaId'>";	
+	print "<META HTTP-EQUIV=REFRESH CONTENT='0; URL=inicio2.php?btn=vendapedido&id_mesa=$mesaId&idGarcon=$garcon'>";	
 
 	}
 
@@ -217,20 +219,17 @@ function Cozinha(pagina,nome,w,h,scroll){
 	$mesa = $_GET['id_mesa'];
 
 	$carrinho = mysqli_query($db,"SELECT *, SUM(qtd) AS qt,SUM(preco) AS pr FROM entrega WHERE id_mesa = '$id_mesa' AND situacao ='1' GROUP BY cod") or die($db->error);
-  $carrinho2 = $carrinho->fetch_all(MYSQLI_ASSOC);
-
-	$contar = count($carrinho2);
 
 	
   $itens = 0;
   $total = 0;
-	if($contar == 0){
+	if($carrinho == false){
 
 		echo "";
 
-	}else{		
+	} else {		
 
-		foreach($carrinho2 as $res){		
+		while($res = $carrinho->fetch_assoc()){		
 
 		
 
