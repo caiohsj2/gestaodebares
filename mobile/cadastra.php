@@ -5,7 +5,7 @@ include "../config/conexao.php";
 header('Content-type: text/html; charset=UTF-8');
 
 
-if(isset($_GET['adiciona'])){
+if(isset($_GET['adiciona']) || isset($_GET['retira'])){
 	if($_GET['adiciona'] == "produto"){
 		$qtd = $_GET['qtd']+1;
 
@@ -20,6 +20,23 @@ if(isset($_GET['adiciona'])){
 		if($up){
 
 		print "<META HTTP-EQUIV=REFRESH CONTENT='0; URL=vermesa.php?id_mesa=$mesaId'>";	
+
+		}
+	}
+
+	if($_GET['retira'] == "produto"){
+
+		$mesaId = $_GET['id_mesa'];
+
+		$idRemove = $_GET['id'];
+
+		//$idGarcon = $_GET['idGarcon'];
+
+		$del = mysqli_query($db,"DELETE FROM tbl_carrinho WHERE id='$idRemove'");
+
+		if($del){
+
+			print "<META HTTP-EQUIV=REFRESH CONTENT='0; URL=vermesa.php?id_mesa=$mesaId'>";	
 
 		}
 	}

@@ -150,13 +150,13 @@ echo "<meta HTTP-EQUIV='refresh' CONTENT='5;URL=?btn=garcon'>";
 
     <td width="11%" align="center" bgcolor="#3399FF"><strong>Hora</strong></td>
 
-    <td width="8%" align="center" bgcolor="#3399FF"><strong>Mesa</strong></td>
+    <td width="13%" align="center" bgcolor="#3399FF"><strong>Mesa</strong></td>
 
     <td width="12%" align="left" bgcolor="#3399FF"><strong>Garçom</strong></td>
 
     <td width="7%" align="center" bgcolor="#3399FF"><strong>Ações</strong></td>
     
-      <td width="25%" align="center" bgcolor="#3399FF"><strong>OBS</strong></td>
+      <td width="20%" align="center" bgcolor="#3399FF"><strong>OBS</strong></td>
 
   </tr>
 
@@ -219,7 +219,6 @@ echo "<meta HTTP-EQUIV='refresh' CONTENT='5;URL=?btn=garcon'>";
 
   $sql2 = mysqli_query($db,"SELECT * FROM entrega INNER JOIN garcon ON entrega.idGarcon = garcon.idGarcon WHERE status='0' ORDER BY id DESC") or die($db->error);
 
-  $i = 0;
   while($ver2 = $sql2->fetch_assoc()){
 
   $background = (++$i%2) ? '#FFFFF' : '#F2F2F2';
@@ -236,7 +235,7 @@ echo "<meta HTTP-EQUIV='refresh' CONTENT='5;URL=?btn=garcon'>";
 
     <td align="center" bgcolor="<?php echo $background ?>"><?php echo $ver2['time']; ?></td>
 
-    <td align="center" bgcolor="<?php echo $background ?>"><?php echo $ver2['id_mesa'] ?></td>
+    <td align="center" bgcolor="<?php echo $background ?>"><?php echo "PED-".$ver2['id_mesa'] ?></td>
 
     <td bgcolor="<?php echo $background ?>"><?php echo $ver2['nomeGarcon'] ?></td>
 

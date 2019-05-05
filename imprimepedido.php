@@ -197,7 +197,7 @@ hr{ color:#f2f2f2;}
 
 	<?php	
 
-	$carrinho = mysqli_query($db,"SELECT *, SUM(qtd) AS qt, SUM(preco) AS pr FROM entrega WHERE id_mesa = '$id_mesa' AND situacao='1' GROUP BY cod") or die($db->error);
+	$carrinho = mysqli_query($db,"SELECT * FROM entrega WHERE id_mesa = '$id_mesa' AND situacao='1'") or die($db->error);
 
 	
 
@@ -220,7 +220,7 @@ hr{ color:#f2f2f2;}
 
 			$nome  			= $res['nome'];
 
-			$preco       	= $res['pr'];	
+			//$preco       	= $res['pr'];	
 
 			$qtd		 	= $res['qtd'];
 

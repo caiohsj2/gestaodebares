@@ -10,9 +10,9 @@
 
 		
 
-			$delete = mysqli_query("UPDATE mesa SET situacao ='0', idGarcon = '' WHERE id_mesa = '$id_mesa' ")or die($db->error);
+			$delete = mysqli_query($db,"UPDATE mesa SET situacao ='0', idGarcon = '' WHERE id_mesa = '$id_mesa' ")or die($db->error);
 
-			$up = mysqli_query("UPDATE tbl_carrinho SET situacao = '0' WHERE id_mesa = '$id_mesa'")or die($db->error);
+			$up = mysqli_query($db,"UPDATE tbl_carrinho SET situacao = '0' WHERE id_mesa = '$id_mesa'")or die($db->error);
 
 		}
 	}

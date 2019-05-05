@@ -119,11 +119,12 @@ hr{ color:#f2f2f2;}
 
 	<?php	
 
-	$carrinho = mysqli_query($db,"SELECT *, SUM(qtd) AS qt, SUM(preco) AS pr FROM tbl_carrinho WHERE id_mesa = '$id_mesa' AND situacao='1' GROUP BY cod") or die($db->error);
+	$carrinho = mysqli_query($db,"SELECT * FROM tbl_carrinho WHERE id_mesa = '$id_mesa' AND situacao='1'") or die($db->error);
 
 	
 	$itens = 0;
 	$total = 0;
+	$totalProduto = 0;
 	if($carrinho == false){
 
 		echo "Adicione itens";
@@ -140,7 +141,7 @@ hr{ color:#f2f2f2;}
 
 			$nome  			= $res['nome'];
 
-			$preco       	= $res['pr'];	
+			//$preco       	= $res['pr'];	
 
 			$qtd		 	= $res['qtd'];
 

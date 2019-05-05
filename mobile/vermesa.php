@@ -64,7 +64,7 @@ if(isset($_GET['retira'])){
 	<?php
 	$mesaId = $_GET['id_mesa'];	
 	$mesa = $_GET['id_mesa'];
-	$carrinho = mysqli_query($db,"SELECT *, SUM(qtd) AS qt,SUM(preco) AS pr FROM tbl_carrinho WHERE id_mesa = '$mesa' AND situacao ='1' GROUP BY cod") or die($db->error);
+	$carrinho = mysqli_query($db,"SELECT * FROM tbl_carrinho WHERE id_mesa = '$mesa' AND situacao ='1'") or die($db->error);
 	
 	if($carrinho == false){
 		echo "";
@@ -77,19 +77,37 @@ if(isset($_GET['retira'])){
 			$id           	= $res['id'];
 			$cod     	  	= $res['cod'];
 			$nome  			= $res['nome'];
-			$preco       	= $res['pr'];
+			//$preco       	= $res['pr'];
 			$unitario		= $res['preco'];	
 			$qtd		 	= $res['qtd'];
 			$comanda		= $res['comanda'];
 			$data			= $res['data'];
 			$id_mesa		= $res['id_mesa'];
+			$observacao     = $res['observacao'];
 			$itens			+=$qtd;
 			$totalProduto   = (double)$unitario*$qtd;
 			$total          += $totalProduto;
 	?>
 	<tr class="fontcomanda">
     <td align="left" class="btn">
-      <a href="cozinha.php?id_mesa=<?php echo $id_mesa ?>&nome=<?php echo $nome; ?>"  title="Imprimir" onclick="Cozinha(this.href,'nomeJanela','350','600','yes');return false" class="fontcomanda"><?php echo $nome; ?></a></td>
+      <?php
+    	if($observacao == ""){
+    ?>
+
+    <a href="../cozinha.php?id_mesa=<?php echo $id_mesa ?>&nome=<?php echo $nome; ?>&observacao=<?php echo $observacao;?>"  title="Imprimir"
+
+    onclick="Cozinha(this.href,'nomeJanela','350','600','yes');return false" class="fontcomanda"><?php echo $nome; ?></a>
+    <?php
+    	} else {
+    ?>
+
+    <a href="../cozinha.php?id_mesa=<?php echo $id_mesa ?>&nome=<?php echo $nome; ?>&observacao=<?php echo $observacao;?>"  title="Imprimir"
+
+    onclick="Cozinha(this.href,'nomeJanela','350','600','yes');return false" class="fontcomanda" style="color: blue;"><?php echo $nome; ?></a>
+
+    <?php
+    	}
+    ?></td>
     
     <td align="center" class="btn"><?php echo $qtd; ?> <a href="cadastra.php?adiciona=produto&id=<?php echo $id; ?>&qtd=<?php echo $qtd; ?>&id_mesa=<?php echo $id_mesa; ?>&idGarcon=<?php echo $idGarcon; ?>"><img src="../imagens/qtd.png" width="17" height="18" border="0" /></a></td>
     <td align="center" ><?php echo $unitario ?></td>

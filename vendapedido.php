@@ -220,7 +220,7 @@ function Cozinha(pagina,nome,w,h,scroll){
 	  </tr>
 	<?php	
 	
-	$carrinho = mysqli_query($db,"SELECT *, SUM(qtd) AS qt,SUM(preco) AS pr FROM entrega WHERE id_mesa='$numero' AND situacao='1' GROUP BY cod") or die(		$db->error);
+	$carrinho = mysqli_query($db,"SELECT * FROM entrega WHERE id_mesa='$numero' AND situacao='1'") or die($db->error);
 	
 	$itens = 0;
 	$total = 0;
@@ -236,7 +236,7 @@ function Cozinha(pagina,nome,w,h,scroll){
 
 			$nome  			= $res['nome'];
 
-			$preco       	= $res['pr'];	
+			//$preco       	= $res['pr'];	
 
 			$qtd		 	= $res['qtd'];
 
@@ -249,6 +249,8 @@ function Cozinha(pagina,nome,w,h,scroll){
 			$id_mesa		= $res['id_mesa'];
 
 			$garconId       = $res['idGarcon'];
+
+			$observacao     = $res['observacao'];
 
 			
 
@@ -265,9 +267,24 @@ function Cozinha(pagina,nome,w,h,scroll){
 
     <td width="60%" align="left">
 
-    <a href="cozinha.php?id_mesa=<?php echo $id_mesa ?>&nome=<?php echo $nome; ?>"  title="Imprimir"
+    <?php
+    	if($observacao == ""){
+    ?>
+
+    <a href="cozinha.php?id_mesa=<?php echo $id_mesa ?>&nome=<?php echo $nome; ?>&observacao=<?php echo $observacao;?>"  title="Imprimir"
 
     onclick="Cozinha(this.href,'nomeJanela','350','600','yes');return false" class="fontcomanda"><?php echo $nome; ?></a>
+    <?php
+    	} else {
+    ?>
+
+    <a href="cozinha.php?id_mesa=<?php echo $id_mesa ?>&nome=<?php echo $nome; ?>&observacao=<?php echo $observacao;?>"  title="Imprimir"
+
+    onclick="Cozinha(this.href,'nomeJanela','350','600','yes');return false" class="fontcomanda" style="color: blue;"><?php echo $nome; ?></a>
+
+    <?php
+    	}
+    ?>
 
     </td>
 

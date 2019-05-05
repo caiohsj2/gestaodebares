@@ -76,11 +76,24 @@ if(isset($_GET['acao'])){
 
   	$feito = $_GET['feito'];
 
-  	$sql = mysqli_query($db,"UPDATE	tbl_carrinho SET feito = '$feito' WHERE id='$id'") or die(mysql_error());
+  	$sql = mysqli_query($db,"UPDATE	tbl_carrinho SET feito = '$feito' WHERE id='$id'") or die($db->error);
 
   	print "<META HTTP-EQUIV=REFRESH CONTENT='0; URL=pedidoscozinha.php'>";
 
   	//echo $feito;
+  }
+
+  if($_GET['acao'] == "mudarEntrega"){
+
+    $id = $_GET['id'];
+
+    $feito = $_GET['feito'];
+
+    $sql = mysqli_query($db,"UPDATE entrega SET feito = '$feito' WHERE id='$id'") or die($db->error);
+
+    print "<META HTTP-EQUIV=REFRESH CONTENT='0; URL=pedidoscozinha.php'>";
+
+    //echo $feito;
   }
 }
 
@@ -117,13 +130,13 @@ if(isset($_GET['retira'])){
 
       <td width="11%" align="center" bgcolor="#3399FF"><strong>Hora</strong></td>
 
-      <td width="8%" align="center" bgcolor="#3399FF"><strong>Mesa</strong></td>
+      <td width="13%" align="center" bgcolor="#3399FF"><strong>Mesa</strong></td>
 
       <td width="12%" align="left" bgcolor="#3399FF"><strong>Garçom</strong></td>
 
       <td width="7%" align="center" bgcolor="#3399FF"><strong>Ação</strong></td>
       
-      <td width="25%" align="center" bgcolor="#3399FF"><strong>OBS</strong></td>
+      <td width="20%" align="center" bgcolor="#3399FF"><strong>OBS</strong></td>
 
     </tr>
 
@@ -175,7 +188,6 @@ if(isset($_GET['retira'])){
 
     $sql2 = mysqli_query($db,"SELECT * FROM entrega INNER JOIN garcon ON entrega.idGarcon = garcon.idGarcon WHERE destino='1' AND status = '0' ORDER BY id DESC") or die($db->error);
 
-    $i = 0;
   while($ver2 = $sql2->fetch_assoc()){
 
   $background = (++$i%2) ? '#FFFFF' : '#F2F2F2';
@@ -190,7 +202,7 @@ if(isset($_GET['retira'])){
 
       <td align="center" bgcolor="<?php echo $background ?>"><?php echo $ver2['time']; ?></td>
 
-      <td align="center" bgcolor="<?php echo $background ?>"><?php echo $ver2['id_mesa'] ?></td>
+      <td align="center" bgcolor="<?php echo $background ?>"><?php echo "PED-".$ver2['id_mesa'] ?></td>
 
       <td bgcolor="<?php echo $background ?>"><?php echo $ver2['nomeGarcon'] ?></td>
 
@@ -198,13 +210,13 @@ if(isset($_GET['retira'])){
 
       <?php if($feito == 1){?>
 
-      <a href="javascript:confirmariten('?acao=mudar&feito=0&id=<?php echo $ver2['id']; ?>')">
+      <a href="javascript:confirmariten('?acao=mudarEntrega&feito=0&id=<?php echo $ver2['id']; ?>')">
 
       <img src="imagens/pronto.png" width="45" height="18" border="0" /></a>
 
       <?php }else{?>
 
-      <a href="javascript:confirmar('?acao=mudar&feito=1&id=<?php echo $ver2['id']; ?>')"><img src="imagens/AFAZER.png" width="45" height="18" border="0" /></a>
+      <a href="javascript:confirmar('?acao=mudarEntrega&feito=1&id=<?php echo $ver2['id']; ?>')"><img src="imagens/AFAZER.png" width="45" height="18" border="0" /></a>
 
 <?php } ?>
 
